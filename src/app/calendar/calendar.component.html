@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="row">
+       <monthly-stat></monthly-stat>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <my-pager></my-pager>
+        </div>
+    </div>
+    <div class="grid-calendar col-md-12">
+        <div class="row calendar-week-header">
+            <div *ngFor="let day of dayNameList" class="col-xs-1 grid-cell dayName"><p>{{day}}</p></div>
+        </div>
+        <my-week [week]="week" [weekindex]="weekindex" class="row calendar-week" *ngFor="let week of this.tlogService.weeks; let weekindex=index"></my-week>
+        <add-day-modal></add-day-modal>
+    </div>
+</div>
