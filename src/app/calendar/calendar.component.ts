@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TlogService} from '../shared/services/tlog.service';
+import {Week} from '../shared/classes/Classes';
 
-declare var datejs: any;
 
 @Component({
     selector: 'my-calendar',

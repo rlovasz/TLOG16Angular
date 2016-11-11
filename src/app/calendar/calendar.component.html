@@ -11,7 +11,7 @@
         <div class="row calendar-week-header">
             <div *ngFor="let day of dayNameList" class="col-xs-1 grid-cell dayName"><p>{{day}}</p></div>
         </div>
-        <my-week [week]="week" [weekindex]="weekindex" class="row calendar-week" *ngFor="let week of this.tlogService.weeks; let weekindex=index"></my-week>
+        <my-week [week]="week" [weekindex]="weekindex" class="row calendar-week" *ngFor="let week of this.tlogService.getWeeks(); let weekindex=index"></my-week>
         <add-day-modal></add-day-modal>
     </div>
 </div>

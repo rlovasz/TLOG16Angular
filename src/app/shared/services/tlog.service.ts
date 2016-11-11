@@ -2,26 +2,25 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import {Week, Day} from '../classes/Classes';
 
-declare var datejs: any;
 
 @Injectable()
 export class TlogService {
 
-    selectedMonth: any;
-    month: string;
-    dayTypeOfFirstDay: number;
-    dayTypeOfLastDay: number;
-    daysInMonth: number;
-    i: number = 0;
-    firstWeek: Week = new Week();
-    secondWeek: Week = new Week();
-    thirdWeek: Week = new Week();
-    fourthWeek: Week = new Week();
-    fifthWeek: Week = new Week();
-    sixthWeek: Week = new Week();
-    weeks: Week[] = [];
-    workDays: string[] = ['2016-11-7', '2016-11-8', '2016-11-9'];
-    workDaysNumberOfDay: number[] = [];
+    private selectedMonth: any;
+    private displayMonth: string;
+    private dayTypeOfFirstDay: number;
+    private dayTypeOfLastDay: number;
+    private daysInMonth: number;
+    private i: number = 0;
+    private firstWeek: Week = new Week();
+    private secondWeek: Week = new Week();
+    private thirdWeek: Week = new Week();
+    private fourthWeek: Week = new Week();
+    private fifthWeek: Week = new Week();
+    private sixthWeek: Week = new Week();
+    private weeks: Week[] = [];
+    private workDays: string[] = ['2016-11-7', '2016-11-8', '2016-11-9'];
+    private workDaysNumberOfDay: number[] = [];
 
     constructor() {
         this.selectedMonth = new Date();
@@ -29,7 +28,7 @@ export class TlogService {
     }
 
     public setupValues() {
-        this.month = this.selectedMonth.getFullYear() + '-' + (this.selectedMonth.getMonth() + 1);
+        this.displayMonth = this.selectedMonth.getFullYear() + '-' + (this.selectedMonth.getMonth() + 1);
         this.daysInMonth = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth() + 1, 0).getDate();
         this.dayTypeOfFirstDay = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), 0).getDay();
         this.dayTypeOfLastDay = new Date(this.selectedMonth.getFullYear(), this.selectedMonth.getMonth(), this.daysInMonth - 1).getDay();
@@ -65,15 +64,11 @@ export class TlogService {
                     }
                     this.weeks[4] = this.fifthWeek;
                 }
-
-
             }
-
         }
         for (let index = 0; index < this.workDays.length; index++) {
             this.workDaysNumberOfDay[index] = +this.workDays[index].split('-')[2];
         }
-
     }
 
     public clearLists() {
@@ -91,9 +86,9 @@ export class TlogService {
     //
     // constructor(private http: Http) { }
     //
-    // getWorkDaysInMonth(year: number, month: number) : any{
+    // getWorkDaysInMonth(year: number, displayMonth: number) : any{
     //
-    //     // return this.http.get('http://127.0.0.1:9090/tlog-backend/timelogger/workmonths/'+year+'/'+month)
+    //     // return this.http.get('http://127.0.0.1:9090/tlog-backend/timelogger/workmonths/'+year+'/'+displayMonth)
     //     //     .toPromise()
     //     //     .then(response => response.json().data as any);
     // }
@@ -117,7 +112,27 @@ export class TlogService {
     //     this.http.post('http://127.0.0.1:9090/tlog-backend/timelogger/workmonths/workdays/weekend',day, {headers: this.headers});
     //
     // }
-    public getWorkDaysNumberOfDay() {
+    public getWorkDaysNumberOfDay(): number[] {
         return this.workDaysNumberOfDay;
+    }
+
+    public getSelectedMonth(): Date {
+        return this.selectedMonth;
+    }
+
+    public getDayTypeOfFirstDay(): number {
+        return this.dayTypeOfFirstDay;
+    }
+
+    public getDisplayMonth(): string {
+        return this.displayMonth;
+    }
+
+    public setSelectedMonth(selectedMonth: Date) {
+        this.selectedMonth = selectedMonth;
+    }
+
+    public getWeeks(): Week[] {
+        return this.weeks;
     }
 }
