@@ -17,15 +17,15 @@ export class TaskListComponent implements OnInit {
     }
 
     getClickedEdit(taskId: string, comment: string, startTime: string, endTime: string) {
-        this.tlogService.editTaskId = taskId;
-        this.tlogService.editComment = comment;
-        this.tlogService.editStartTime = startTime;
-        this.tlogService.editEndTime = endTime;
+        this.tlogService.setEditTaskId(taskId);
+        this.tlogService.setEditComment(comment);
+        this.tlogService.setEditStartTime(startTime);
+        this.tlogService.setEditEndTime(endTime);
     }
 
     getClickedDelete(taskId: string, startTime: string) {
-        this.tlogService.deleteTaskId = taskId;
-        this.tlogService.deleteStartTime = startTime;
+        this.tlogService.setDeleteTaskId(taskId);
+        this.tlogService.setDeleteStartTime(startTime);
     }
 
 

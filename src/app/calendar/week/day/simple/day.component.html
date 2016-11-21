@@ -1,7 +1,7 @@
-<p id="dayOfMonth">{{this.weekindex*7+this.dayindex+1-this.tlogService.dayTypeOfFirstDay}}</p>
+<p id="dayOfMonth">{{weekindex*7+dayindex+1-tlogService.getDayTypeOfFirstDay()}}</p>
 <br><br><br>
-<button (click)="this.tlogService.getLastClickedButton(this.weekindex*7+this.dayindex+1-this.tlogService.dayTypeOfFirstDay)"
+<button (click)="tlogService.getAddedDay(weekindex*7+dayindex+1-tlogService.getDayTypeOfFirstDay())"
         type="button" class="btn add-day" data-toggle="modal" data-target="#addDayModal"
-        id="{{this.tlogService.selectedYear}}-{{this.tlogService.selectedM}}-{{this.weekindex*7+this.dayindex+1-this.tlogService.dayTypeOfFirstDay}} ">
+        id="{{tlogService.getSelectedYear()}}-{{tlogService.getSelectedMonth()}}-{{weekindex*7+dayindex+1-tlogService.getDayTypeOfFirstDay()}} ">
     <span class="glyphicon glyphicon-plus"></span>
 </button>

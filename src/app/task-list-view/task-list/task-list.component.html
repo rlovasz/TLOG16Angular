@@ -11,7 +11,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let task of tlogService.tasks">
+        <tr *ngFor="let task of tlogService.getTasks()">
             <td>{{task[0]}}</td>
             <td>{{task[1]}}</td>
             <td>{{task[2]}}</td>

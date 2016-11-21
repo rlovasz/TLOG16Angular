@@ -6,12 +6,14 @@ import {TlogService} from '../../shared/Services/tlog.service';
     templateUrl: 'daily-stat.component.html'
 })
 export class DailyStatComponent implements OnInit {
-    constructor(private tlogService: TlogService) { }
+    
+    constructor(private tlogService: TlogService) {
+    }
 
     ngOnInit() { }
 
-    getStyle() {
-        if (this.tlogService.extraMinutesPerDay >= 0) {
+    getExtraMinPerDayStyle() {
+        if (this.tlogService.getDailyStat()[0] >= 0) {
             return 'green';
         } else {
             return 'red';

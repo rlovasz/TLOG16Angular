@@ -1,6 +1,6 @@
-<p id="dayOfMonth">{{this.weekindex*7+this.dayindex+1-this.tlogService.dayTypeOfFirstDay}}</p>
-<p id="extraDaily" [style.color]="getStyle()">Extra minutes: {{this.minutes[this.workDayIndex]}}</p>
+<p id="dayOfMonth">{{weekindex*7+dayindex+1-tlogService.getDayTypeOfFirstDay()}}</p>
+<p id="extraDaily" [style.color]="getExtraMinStyle()">Extra minutes: {{minutes[workDayIndex]}}</p>
 <br><br>
-<a (click)="gotoTaskListView()" id="{{this.tlogService.selectedYear}}-{{this.tlogService.selectedMonth}}-{{this.weekindex*7+this.dayindex+1-this.tlogService.dayTypeOfFirstDay}} ">
+<a (click)="gotToTaskListView()" id="{{tlogService.getSelectedYear()}}-{{tlogService.getSelectedMonth()}}-{{weekindex*7+dayindex+1-tlogService.getDayTypeOfFirstDay()}} ">
     <span class="glyphicon glyphicon-pencil"></span>
 </a>

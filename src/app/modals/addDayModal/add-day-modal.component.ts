@@ -29,10 +29,8 @@ export class AddDayModalComponent implements OnInit {
             (err) => {
                 if (err.status === 428) {
                     if (confirm('Are you sure you have a working day on weekend?')) {
-                        console.log('YES');
                         this.tlogService.addDayWeekend(requiredHours);
                     } else {
-                        console.log('NO');
                         this.resetVal();
                     }
                 }

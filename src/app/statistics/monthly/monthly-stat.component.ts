@@ -7,16 +7,20 @@ import {TlogService} from '../../shared/Services/tlog.service';
 })
 export class MonthlyStatComponent implements OnInit {
 
-    getStyle() {
-        if (this.tlogService.monthlyStat[0] >= 0) {
+    constructor(private tlogService: TlogService) {
+
+    }
+
+    ngOnInit() {
+
+    }
+
+    getExtraMinPerMonthStyle() {
+        if (this.tlogService.getMonthlyStat()[0] >= 0) {
           return 'green';
         } else {
           return 'red';
         }
     }
-
-    constructor(private tlogService: TlogService) { }
-
-    ngOnInit() { }
 
 }

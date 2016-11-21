@@ -1,4 +1,4 @@
-<div *ngFor="let day of this.days; let dayindex=index" class="col-xs-1 grid-cell day" [style.background]="getStyle(this.days[dayindex].type)">
-    <my-day [dayindex]="dayindex" [weekindex]="this.weekindex" *ngIf="day.type==='notempty'"></my-day>
-    <my-workday-cell [dayindex]="dayindex" [weekindex]="this.weekindex"  *ngIf="day.type === 'work'"></my-workday-cell>
+<div *ngFor="let day of days; let dayindex=index" class="col-xs-1 grid-cell day" [style.background]="getWorkDayStyle(days[dayindex].type)">
+    <my-day [dayindex]="dayindex" [weekindex]="weekindex" *ngIf="day.type==='notempty'"></my-day>
+    <my-workday-cell [dayindex]="dayindex" [weekindex]="weekindex"  *ngIf="day.type === 'work'"></my-workday-cell>
 </div>

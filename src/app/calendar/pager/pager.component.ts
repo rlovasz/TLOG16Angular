@@ -10,29 +10,33 @@ import {TlogService} from '../../shared/Services/tlog.service';
 })
 export class PagerComponent implements OnInit {
 
-    constructor(private tlogService: TlogService) { }
+    constructor(private tlogService: TlogService) {
+    }
 
     ngOnInit() {
     }
 
     prevClick() {
-        this.tlogService.selectedDate.setMonth(this.tlogService.selectedDate.getMonth() - 1);
-        this.tlogService.clearLists();
-        this.tlogService.setupValues();
-        this.tlogService.getWorkDaysInMonth(this.tlogService.selectedYear, this.tlogService.selectedMonth);
-        this.tlogService.getWorkMonthsForMonthlyStatistics();
-
+        let selectedDate = this.tlogService.getSelectedDate();
+        selectedDate.setMonth(selectedDate.getMonth() - 1);
+        this.tlogService.setSelectedDate(selectedDate);
+        this.getTheNewMonthValues();
     }
 
     nextClick() {
-        this.tlogService.selectedDate.setMonth(this.tlogService.selectedDate.getMonth() + 1);
-        this.tlogService.clearLists();
-        this.tlogService.setupValues();
-        this.tlogService.getWorkDaysInMonth(this.tlogService.selectedYear, this.tlogService.selectedMonth);
-        this.tlogService.getWorkMonthsForMonthlyStatistics();
-
+        let selectedDate = this.tlogService.getSelectedDate();
+        selectedDate.setMonth(selectedDate.getMonth() + 1);
+        this.tlogService.setSelectedDate(selectedDate);
+        this.getTheNewMonthValues();
     }
 
-
+    getTheNewMonthValues() {
+        this.tlogService.clearLists();
+        this.tlogService.setupValues();
+        let selectedYear = this.tlogService.getSelectedYear();
+        let selectedMonth = this.tlogService.getSelectedMonth();
+        this.tlogService.getWorkDaysInMonth(selectedYear, selectedMonth);
+        this.tlogService.getWorkMonthsForMonthlyStatistics();
+    }
 }
 

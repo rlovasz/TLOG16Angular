@@ -15,23 +15,10 @@ export class WorkdayCellComponent implements OnInit {
     workDayIndex: number;
 
 
-    constructor(private tlogService: TlogService, private router: Router) {
+    constructor(private tlogService: TlogService, private router: Router) {}
 
-    }
-
-    getMinutes(): number[] {
-        let minutesAndDays = [];
-        let minutes = [];
-        for (let index = 0; index < this.workDaysBeans.length; index++) {
-            minutesAndDays[index] = [];
-            minutesAndDays[index][1] = +this.workDaysBeans[index].extraMinPerDay;
-            minutesAndDays[index][0] = +this.workDaysBeans[index].actualDay.toString().split('-')[2];
-        }
-        minutesAndDays.sort(this.sortFunction);
-        for (let index = 0; index < this.workDaysBeans.length; index++) {
-            minutes[index] = minutesAndDays[index][1];
-        }
-        return minutes;
+    ngOnInit() {
+        this.getWorkDaysInMonth(this.tlogService.getSelectedYear(), this.tlogService.getSelectedMonth());
     }
 
     getWorkDaysInMonth(year: number, month: number) {
@@ -48,15 +35,22 @@ export class WorkdayCellComponent implements OnInit {
         );
     }
 
-    sortFunction(a, b): number {
-        if (a[0] === b[0]) {
-            return 0;
-        } else {
-            return (a[0] < b[0]) ? -1 : 1;
+    getMinutes(): number[] {
+        let minutesAndDays = [];
+        let minutes = [];
+        for (let index = 0; index < this.workDaysBeans.length; index++) {
+            minutesAndDays[index] = [];
+            minutesAndDays[index][1] = +this.workDaysBeans[index].extraMinPerDay;
+            minutesAndDays[index][0] = +this.workDaysBeans[index].actualDay.toString().split('-')[2];
         }
+        minutesAndDays.sort(this.tlogService.sortFunction);
+        for (let index = 0; index < this.workDaysBeans.length; index++) {
+            minutes[index] = minutesAndDays[index][1];
+        }
+        return minutes;
     }
 
-    getStyle() {
+    getExtraMinStyle() {
         if (this.minutes[this.tlogService.getWorkDayIndex()] >= 0) {
             return 'green';
         } else {
@@ -64,23 +58,20 @@ export class WorkdayCellComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
-        this.getWorkDaysInMonth(this.tlogService.selectedYear, this.tlogService.selectedMonth);
-    }
-
-    gotoTaskListView(): void {
-        if (this.weekindex * 7 + this.dayindex + 1 - this.tlogService.dayTypeOfFirstDay < 10) {
-            this.tlogService.selectedElement = this.tlogService.selectedYear.toString() + '-' +
-                this.tlogService.selectedMonth.toString() + '-0' +
-                (this.weekindex * 7 + this.dayindex + 1 - this.tlogService.dayTypeOfFirstDay).toString();
+    gotToTaskListView(): void {
+        let selectedYear = this.tlogService.getSelectedYear();
+        let selectedMonth = this.tlogService.getSelectedMonth();
+        let dayTypeOfFirstDay = this.tlogService.getDayTypeOfFirstDay();
+        let selectedDayOnTaskList = this.tlogService.getSelectedDayOnTaskList();
+        if (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay < 10) {
+            selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-0' +
+                (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
         } else {
-            this.tlogService.selectedElement = this.tlogService.selectedYear.toString() + '-' +
-                this.tlogService.selectedMonth.toString() + '-' +
-                (this.weekindex * 7 + this.dayindex + 1 - this.tlogService.dayTypeOfFirstDay).toString();
+            selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-' +
+                (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
         }
+        this.tlogService.setSelectedDayOnTaskList(selectedDayOnTaskList);
         this.router.navigate(['/tasklist']);
-
-
     }
 
 }

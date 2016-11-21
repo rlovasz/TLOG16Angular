@@ -1,6 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
 import {Week, Day} from '../../shared/Classes/Classes';
-import {TlogService} from '../../shared/Services/tlog.service';
 
 
 @Component({
@@ -13,7 +12,7 @@ export class WeekComponent implements OnInit {
     @Input() week: Week;
     @Input() weekindex: number;
     days: Day[] = [];
-    constructor(private tlogService: TlogService) {
+    constructor() {
 
     }
 
@@ -21,7 +20,7 @@ export class WeekComponent implements OnInit {
         this.days = this.week.week;
     }
 
-    getStyle(isWorkday: string) {
+    getWorkDayStyle(isWorkday: string) {
         if (isWorkday === 'work') {
           return 'white';
         }
