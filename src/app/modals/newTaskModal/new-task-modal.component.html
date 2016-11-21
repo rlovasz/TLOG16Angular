@@ -1,0 +1,22 @@
+<div class="modal fade" id="newTaskModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p class="modal-title">Set the task informations</p>
+            </div>
+            <div class="modal-body">
+                <form action="listTasks.html">
+                    <input #taskId type="text" name="taskId" placeholder="Task id" required>
+                    <input #comment type="text" name="comment" placeholder="Comment">
+                    <input #startTime type="text" name="startTime" placeholder="Start time" required>
+                    <input #endTime type="text" name="endTime" placeholder="End time">
+                    <input (click)="this.addNewTask(taskId.value, comment.value, startTime.value, endTime.value)" type="submit" data-dismiss="modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

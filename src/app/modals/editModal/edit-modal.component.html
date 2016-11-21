@@ -1,0 +1,19 @@
+<div class="modal fade" id="editModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p class="modal-title">Modifications of task</p>
+            </div>
+            <div class="modal-body">
+                <input #newTaskId type="text" name="taskId" value={{this.tlogService.editTaskId}}>
+                <input #newComment type="text" name="comment" value={{this.tlogService.editComment}}>
+                <input #newStartTime type="text" name="startTime" value={{this.tlogService.editStartTime}}>
+                <input #newEndTime type="text" name="endTime" value={{this.tlogService.editEndTime}}>
+            </div>
+            <div class="modal-footer">
+                <button (click)="modifyTaskWithGivenData(newTaskId.value, newComment.value, newStartTime.value, newEndTime.value)"  type="submit" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th id="taskId">Task id</th>
+            <th id="comment">Comment</th>
+            <th id="startTime">Start time</th>
+            <th id="endTime">End time</th>
+            <th id="minPerTask">Length of task in minutes</th>
+            <th id="edit">Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let task of tlogService.tasks">
+            <td>{{task[0]}}</td>
+            <td>{{task[1]}}</td>
+            <td>{{task[2]}}</td>
+            <td>{{task[3]}}</td>
+            <td>{{task[4]}}</td>
+            <td>
+                <span id="glyphicons">
+					<button (click)="getClickedEdit(task[0], task[1], task[2], task[3])" type="button" class="btn" data-toggle="modal" data-target="#editModal">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+					<button (click)="getClickedDelete(task[0], task[2])" type="button" class="btn" data-toggle="modal" data-target="#deleteModal">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+				</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
