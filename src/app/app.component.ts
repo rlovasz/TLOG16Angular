@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 import '../style/app.scss';
-import {TlogService} from "./shared/Services/tlog.service";
+import {TlogService} from './shared/Services/tlog.service';
 
 @Component({
   selector: 'my-app',

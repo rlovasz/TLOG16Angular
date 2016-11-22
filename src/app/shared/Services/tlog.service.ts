@@ -59,7 +59,7 @@ export class TlogService {
     public setupValues() {
         this.selectedMonth = this.selectedDate.getMonth() + 1;
         this.selectedYear = this.selectedDate.getFullYear();
-        if(this.selectedMonth >= 10) {
+        if (this.selectedMonth >= 10) {
             this.monthDisplay = this.selectedYear + '-' + this.selectedMonth;
         } else {
             this.monthDisplay = this.selectedYear + '-0' + this.selectedMonth;
@@ -304,6 +304,7 @@ export class TlogService {
     }
 
     public addNewBasicTask(taskId: string, startTime: string): void {
+        console.log(this.selectedDayOnTaskList);
         let year = +this.selectedDayOnTaskList.split('-')[0];
         let month = +this.selectedDayOnTaskList.split('-')[1];
         let day = +this.selectedDayOnTaskList.split('-')[2];
@@ -319,7 +320,6 @@ export class TlogService {
                 (err) => {
                     console.log(err.status);
                     console.log(task);
-
                     if (err.status === 417) {
                         alert('The task should begin earlier then it ends!');
                     }
@@ -350,7 +350,7 @@ export class TlogService {
                     console.log(data.status);
                     console.log(task);
 
-                    window.location.reload();
+                    // window.location.reload();
                 },
                 (err) => {
                     console.log(err.status);
@@ -385,8 +385,7 @@ export class TlogService {
                 (data) => {
                     console.log(data.status);
                     console.log(task);
-
-                    window.location.reload();
+                    // window.location.reload();
                 },
                 (err) => {
                     console.log(err.status);
@@ -422,7 +421,7 @@ export class TlogService {
                     console.log(data.status);
                     console.log(task);
 
-                    window.location.reload();
+                    // window.location.reload();
                 },
                 (err) => {
                     console.log(err.status);
@@ -471,8 +470,9 @@ export class TlogService {
 
     public reloadData() {
         this.router.navigate(['/calendar']);
-        setTimeout(() => this.router.navigate(['/tasklist']), 1);
-        console.log('volt reload data');
+        console.log('calendar megvolt');
+        setTimeout(() => this.router.navigate(['/tasklist']), 10);
+        console.log('újratöltődtünk');
     }
 
     public getAddedDay(day: number) {
@@ -493,6 +493,10 @@ export class TlogService {
 
     public setWorkMonthBeans(newValue: any) {
         this.workMonthBeans = newValue;
+    }
+
+    public setWorkDays(newValue: string[]) {
+        this.workDays = newValue;
     }
 
     public setSelectedDate(newValue: Date) {

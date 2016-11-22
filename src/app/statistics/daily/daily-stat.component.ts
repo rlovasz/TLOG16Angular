@@ -6,7 +6,7 @@ import {TlogService} from '../../shared/Services/tlog.service';
     templateUrl: 'daily-stat.component.html'
 })
 export class DailyStatComponent implements OnInit {
-    
+
     constructor(private tlogService: TlogService) {
     }
 

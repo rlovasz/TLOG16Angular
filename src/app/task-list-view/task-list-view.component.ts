@@ -26,9 +26,13 @@ export class TaskListViewComponent implements OnInit {
             let selectedDayOnTaskList = this.tlogService.getSelectedDayOnTaskList();
             this.workDaysBeans = workDayBeans;
             this.workDays = this.tlogService.getWorkDays();
+            this.tlogService.setWorkDays(this.workDays);
+            console.log(this.workDays);
             this.sortedWorkDays = this.tlogService.getSortedDays();
+            console.log(this.sortedWorkDays);
             if (selectedDayOnTaskList === '') {
                 selectedDayOnTaskList = this.sortedWorkDays[0];
+                this.tlogService.setSelectedDayOnTaskList(selectedDayOnTaskList);
             }
             this.selectedElement = selectedDayOnTaskList;
             this.getStatistics();

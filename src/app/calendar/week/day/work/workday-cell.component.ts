@@ -64,13 +64,24 @@ export class WorkdayCellComponent implements OnInit {
         let dayTypeOfFirstDay = this.tlogService.getDayTypeOfFirstDay();
         let selectedDayOnTaskList = this.tlogService.getSelectedDayOnTaskList();
         if (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay < 10) {
-            selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-0' +
-                (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
+            if (selectedMonth < 10) {
+                selectedDayOnTaskList = selectedYear.toString() + '-0' + selectedMonth.toString() + '-0' +
+                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
+            } else {
+                selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-0' +
+                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
+            }
         } else {
-            selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-' +
-                (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
+            if (selectedMonth < 10) {
+                selectedDayOnTaskList = selectedYear.toString() + '-0' + selectedMonth.toString() + '-' +
+                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
+            } else {
+                selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-' +
+                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
+            }
         }
         this.tlogService.setSelectedDayOnTaskList(selectedDayOnTaskList);
+        console.log(selectedDayOnTaskList);
         this.router.navigate(['/tasklist']);
     }
 
