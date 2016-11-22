@@ -139,9 +139,14 @@ span[id="glyphicons"] button{
   background: darkcyan;
 }
 
+.modal-body p{
+    font-size: 12px;
+}
+
 .modal-content{
   width: 150%
 }
+
 
 input[name="taskId"]{
   width: 10%;

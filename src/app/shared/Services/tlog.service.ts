@@ -300,7 +300,8 @@ export class TlogService {
         let workDayBean = new WorkDayRB(this.selectedYear, this.selectedMonth, this.addedDay, requiredHours);
         let workDay = JSON.stringify(workDayBean);
         this.http.post('http://127.0.0.1:9080/timelogger/workmonths/workdays/weekend', workDay, {headers: this.headers}).toPromise();
-        window.location.reload();
+        this.router.navigate(['/tasklist']);
+        setTimeout(() => this.router.navigate(['/calendar']), 10);
     }
 
     public addNewBasicTask(taskId: string, startTime: string): void {
@@ -314,23 +315,32 @@ export class TlogService {
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
-                    console.log(data.status);
-                    console.log(task);
+
                 },
                 (err) => {
-                    console.log(err.status);
-                    console.log(task);
                     if (err.status === 417) {
-                        alert('The task should begin earlier then it ends!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task should begin earlier then it ends!'
+                        });
                     }
                     if (err.status === 406) {
-                        alert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
+                        });
                     }
                     if (err.status === 416) {
-                        alert('The duration of the task should be multiple of the quarter hours!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The duration of the task should be multiple of the quarter hours!'
+                        });
                     }
                     if (err.status === 409) {
-                        alert('The task has a common interval with an existing task, the intervals should be separated!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
+                        });
                     }
                 }
             );
@@ -347,25 +357,32 @@ export class TlogService {
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
-                    console.log(data.status);
-                    console.log(task);
 
-                    // window.location.reload();
                 },
                 (err) => {
-                    console.log(err.status);
-                    console.log(task);
                     if (err.status === 417) {
-                        alert('The task should begin earlier then it ends!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task should begin earlier then it ends!'
+                        });
                     }
                     if (err.status === 406) {
-                        alert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
+                        });
                     }
                     if (err.status === 416) {
-                        alert('The duration of the task should be multiple of the quarter hours!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The duration of the task should be multiple of the quarter hours!'
+                        });
                     }
                     if (err.status === 409) {
-                        alert('The task has a common interval with an existing task, the intervals should be separated!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
+                        });
                     }
                 }
             );
@@ -383,25 +400,32 @@ export class TlogService {
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
-                    console.log(data.status);
-                    console.log(task);
-                    // window.location.reload();
+
                 },
                 (err) => {
-                    console.log(err.status);
-                    console.log(task);
-
                     if (err.status === 417) {
-                        alert('The task should begin earlier then it ends!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task should begin earlier then it ends!'
+                        });
                     }
                     if (err.status === 406) {
-                        alert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
+                        });
                     }
                     if (err.status === 416) {
-                        alert('The duration of the task should be multiple of the quarter hours!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The duration of the task should be multiple of the quarter hours!'
+                        });
                     }
                     if (err.status === 409) {
-                        alert('The task has a common interval with an existing task, the intervals should be separated!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
+                        });
                     }
                 }
             );
@@ -418,26 +442,31 @@ export class TlogService {
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
-                    console.log(data.status);
-                    console.log(task);
-
-                    // window.location.reload();
                 },
                 (err) => {
-                    console.log(err.status);
-                    console.log(task);
-                    console.log(err);
                     if (err.status === 417) {
-                        alert('The task should begin earlier then it ends!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task should begin earlier then it ends!'
+                        });
                     }
                     if (err.status === 406) {
-                        alert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
+                        });
                     }
                     if (err.status === 416) {
-                        alert('The duration of the task should be multiple of the quarter hours!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The duration of the task should be multiple of the quarter hours!'
+                        });
                     }
                     if (err.status === 409) {
-                        alert('The task has a common interval with an existing task, the intervals should be separated!');
+                        bootbox.alert({
+                            title: 'Warning',
+                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
+                        });
                     }
                 }
             );
@@ -451,7 +480,7 @@ export class TlogService {
         let taskBean = new ModifyTaskRB(year, month, day,
             this.editTaskId, this.editStartTime, newTaskId, newComment, newStartTime, newEndTime);
         let task = JSON.stringify(taskBean);
-        return this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/modify', task, {headers: this.headers})
+        console.log(task);        return this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/modify', task, {headers: this.headers})
             .map((res: Response) => res.json());
     }
 
@@ -459,20 +488,15 @@ export class TlogService {
         let year = +this.selectedDayOnTaskList.split('-')[0];
         let month = +this.selectedDayOnTaskList.split('-')[1];
         let day = +this.selectedDayOnTaskList.split('-')[2];
-        console.log(this.deleteTaskId);
-        console.log(this.deleteStartTime);
         let taskBean = new DeleteTaskRB(year, month, day, this.deleteTaskId, this.deleteStartTime);
         let task = JSON.stringify(taskBean);
-        console.log(task);
         this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/delete', task, {headers: this.headers}).toPromise();
         this.reloadData();
     }
 
     public reloadData() {
         this.router.navigate(['/calendar']);
-        console.log('calendar megvolt');
         setTimeout(() => this.router.navigate(['/tasklist']), 10);
-        console.log('újratöltődtünk');
     }
 
     public getAddedDay(day: number) {
@@ -586,7 +610,6 @@ export class TlogService {
     public getEditEndTime(): string {
         return this.editEndTime;
     }
-
 
 
 }

@@ -18,16 +18,28 @@ export class EditModalComponent implements OnInit {
             },
             (err) => {
                 if (err.status === 417) {
-                    alert('The task should begin earlier then it ends!');
+                    bootbox.alert({
+                        title: 'Warning',
+                        message: 'The task should begin earlier then it ends!'
+                    });
                 }
                 if (err.status === 406) {
-                    alert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
+                    bootbox.alert({
+                        title: 'Warning',
+                        message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
+                    });
                 }
                 if (err.status === 416) {
-                    alert('The duration of the task should be multiple of the quarter hours!');
+                    bootbox.alert({
+                        title: 'Warning',
+                        message: 'The duration of the task should be multiple of the quarter hours!'
+                    });
                 }
                 if (err.status === 409) {
-                    alert('The task has a common interval with an existing task, the intervals should be separated!');
+                    bootbox.alert({
+                        title: 'Warning',
+                        message: 'The task has a common interval with an existing task, the intervals should be separated!'
+                    });
                 }
             }
         );
