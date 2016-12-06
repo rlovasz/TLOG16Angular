@@ -8,10 +8,10 @@
             </div>
             <div class="modal-body">
                 <form action="listTasks.html">
-                    <input #taskId type="text" name="taskId" placeholder="Task id" required>
-                    <input #comment type="text" name="comment" placeholder="Comment">
-                    <input #startTime type="text" name="startTime" placeholder="Start time" required>
-                    <input #endTime type="text" name="endTime" placeholder="End time">
+                    <input #taskId type="text" name="taskId" [(ngModel)]="task_id" placeholder="Task id" required>
+                    <input #comment type="text" name="comment" [(ngModel)]="comment_clear" placeholder="Comment">
+                    <input #startTime type="text" name="startTime" [(ngModel)]="start_time"  placeholder="Start time" required>
+                    <input #endTime type="text" name="endTime" [(ngModel)]="end_time"  placeholder="End time">
                     <input (click)="this.addNewTask(taskId.value, comment.value, startTime.value, endTime.value)" type="submit" data-dismiss="modal">
                 </form>
             </div>

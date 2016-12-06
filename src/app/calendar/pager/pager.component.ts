@@ -20,23 +20,25 @@ export class PagerComponent implements OnInit {
         let selectedDate = this.tlogService.getSelectedDate();
         selectedDate.setMonth(selectedDate.getMonth() - 1);
         this.tlogService.setSelectedDate(selectedDate);
-        this.getTheNewMonthValues();
+        this.tlogService.getAllDisplayedData();
+        // this.getTheNewMonthValues();
     }
 
     nextClick() {
         let selectedDate = this.tlogService.getSelectedDate();
         selectedDate.setMonth(selectedDate.getMonth() + 1);
         this.tlogService.setSelectedDate(selectedDate);
-        this.getTheNewMonthValues();
+        this.tlogService.getAllDisplayedData();
+        // this.getTheNewMonthValues();
     }
 
-    getTheNewMonthValues() {
-        this.tlogService.clearLists();
-        this.tlogService.setupValues();
-        let selectedYear = this.tlogService.getSelectedYear();
-        let selectedMonth = this.tlogService.getSelectedMonth();
-        this.tlogService.getWorkDaysInMonth(selectedYear, selectedMonth);
-        this.tlogService.getWorkMonthsForMonthlyStatistics();
-    }
+    // getTheNewMonthValues() {
+        // this.tlogService.clearLists();
+        // this.tlogService.setupValues();
+        // let selectedYear = this.tlogService.getSelectedYear();
+        // let selectedMonth = this.tlogService.getSelectedMonth();
+        // this.tlogService.getWorkDaysInMonth(selectedYear, selectedMonth);
+        // this.tlogService.getWorkMonthsForMonthlyStatistics();
+    // }
 }
 

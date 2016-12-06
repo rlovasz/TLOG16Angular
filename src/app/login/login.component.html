@@ -1,0 +1,11 @@
+<div class="loginbox">
+    <form>
+        Name:<br>
+        <input #name type="text" name="name" [(ngModel)]="nameField">
+        <br>
+        Password:<br>
+        <input #password type="text" name="password" [(ngModel)]="pswField"> <br><br>
+        <button type="submit" (click)="login(name.value, password.value)">Login</button>
+        <button type="submit" (click)="register(name.value, password.value)">Register</button>
+    </form>
+</div>

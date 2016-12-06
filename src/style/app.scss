@@ -2,6 +2,24 @@
   text-align: center;
 }
 
+body{
+    background: rgba(29, 89, 68, 0.14);
+}
+
+/*login*/
+.loginbox {
+    visibility: visible;
+    text-align: center;
+    background: darkcyan;
+    margin: auto;
+    position: absolute;
+    top: 40%; left: 40%; bottom: 40%; right: 40%;
+}
+
+.loginbox form{
+    font-size: large;
+}
+
 /*navbar*/
 
 
@@ -12,6 +30,13 @@
 .navbar-header h1{
   margin: 0;
   float: left;
+}
+
+.navbar-right {
+    float: left;
+    margin-left: 1300px;
+    width: 150px;
+    text-align: center;
 }
 
 
@@ -79,6 +104,7 @@ my-week.row.calendar-week{
 
 .col-xs-1.grid-cell.dayName{
   height: 22px;
+    background: white;
 }
 
 .col-xs-1.grid-cell.dayName p{
@@ -94,6 +120,10 @@ table, th, td {
 th {
   height: 30px;
   background: darkcyan;
+}
+
+td {
+    background: white;
 }
 
 h2{
@@ -147,7 +177,6 @@ span[id="glyphicons"] button{
   width: 150%
 }
 
-
 input[name="taskId"]{
   width: 10%;
 }
@@ -187,6 +216,7 @@ div[id="dailyStat"]{
   border-color: darkcyan;
   border-width: 1px;
   text-align: left;
+    background: white;
 }
 p[id="dailyStat"]{
   font-size: 18px;
@@ -201,6 +231,7 @@ div[id="monthlyStat"]{
   border-color: darkcyan;
   border-width: 1px;
   text-align: left;
+    background: white;
 }
 #monthlyStat .row p{
   display: inline-table;

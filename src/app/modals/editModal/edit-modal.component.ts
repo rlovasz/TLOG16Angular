@@ -43,6 +43,6 @@ export class EditModalComponent implements OnInit {
                 }
             }
         );
-        this.tlogService.reloadData();
+        this.tlogService.getAllDisplayedData();
     }
 }

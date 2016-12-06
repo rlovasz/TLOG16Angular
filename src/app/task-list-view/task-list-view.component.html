@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label for="selectDay">Select day:</label>
                 <select #selectDay class="form-control input-sm" id="selectDay" [(ngModel)]="selectedElement" (ngModelChange)="updateElement(selectDay.value)">
-                    <option *ngFor="let day of sortedWorkDays">{{day}}</option>
+                    <option *ngFor="let day of tlogService.getSortedWorkDays()">{{day}}</option>
                 </select>
             </div>
         </div>

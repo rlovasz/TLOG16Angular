@@ -14,10 +14,11 @@ export class CalendarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.tlogService.clearLists();
-        this.tlogService.setupValues();
-        this.tlogService.getWorkDaysInMonth(this.tlogService.getSelectedYear(), this.tlogService.getSelectedMonth());
-        this.tlogService.getWorkMonthsForMonthlyStatistics();
+        this.tlogService.getAllDisplayedData();
+        // this.tlogService.clearLists();
+        // this.tlogService.setupValues();
+        // this.tlogService.getWorkDaysInMonth(this.tlogService.getSelectedYear(), this.tlogService.getSelectedMonth());
+        // this.tlogService.getWorkMonthsForMonthlyStatistics();
     }
 
 

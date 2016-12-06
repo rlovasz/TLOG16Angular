@@ -9,14 +9,12 @@ import {Router} from "@angular/router";
 })
 export class AddDayModalComponent implements OnInit {
     private requiredMins: number;
-    tlogService: TlogService;
 
     resetVal() {
         this.requiredMins = null;
     }
 
     constructor(private tlogService: TlogService, private router: Router) {
-        this.tlogService = tlogService;
     }
 
     ngOnInit() {
@@ -44,7 +42,31 @@ export class AddDayModalComponent implements OnInit {
                         message: 'Are you sure you have a working day on weekend?',
                         callback: function (result) {
                             if (result) {
-                                _this.tlogService.addDayWeekend(requiredHours);
+                                _this.tlogService.addDayWeekend(requiredHours).subscribe(
+                                    (data) => {
+
+                                    },
+                                    (err) => {
+                                        if (err.status === 403) {
+                                            bootbox.alert({
+                                                title: 'Warning',
+                                                message: 'You can not have a work day in the future!'
+                                            });
+                                            _this.resetVal();
+                                        }
+                                        if (err.status === 449) {
+                                            bootbox.alert({
+                                                title: 'Warning',
+                                                message: 'You can not have negative working hours!'
+                                            });
+                                            _this.resetVal();
+                                        }
+                                        if (err.status === undefined) {
+                                            _this.tlogService.getAllDisplayedData();
+                                            _this.resetVal();
+                                        }
+                                    }
+                                );
                             }
                         }
                     });
@@ -65,8 +87,8 @@ export class AddDayModalComponent implements OnInit {
                     this.resetVal();
                 }
                 if (err.status === undefined) {
-                    this.router.navigate(['/tasklist']);
-                    setTimeout(() => this.router.navigate(['/calendar']), 10);
+                    this.tlogService.getAllDisplayedData();
+                    this.resetVal();
                 }
             }
         );

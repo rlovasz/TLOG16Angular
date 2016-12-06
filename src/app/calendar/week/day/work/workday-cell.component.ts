@@ -81,7 +81,6 @@ export class WorkdayCellComponent implements OnInit {
             }
         }
         this.tlogService.setSelectedDayOnTaskList(selectedDayOnTaskList);
-        console.log(selectedDayOnTaskList);
         this.router.navigate(['/tasklist']);
     }
 
