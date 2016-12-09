@@ -41,8 +41,11 @@ export class EditModalComponent implements OnInit {
                         message: 'The task has a common interval with an existing task, the intervals should be separated!'
                     });
                 }
+                if (err.status === undefined) {
+                    this.tlogService.getAllDisplayedData();
+                }
             }
         );
-        this.tlogService.getAllDisplayedData();
+
     }
 }

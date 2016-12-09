@@ -32,9 +32,6 @@ export class TlogService {
     private fourthWeek: Week = new Week();
     private fifthWeek: Week = new Week();
     private sixthWeek: Week = new Week();
-    private workDayBeans: any;
-    private taskBeans: any;
-    private workMonthBeans: any;
     private workDays: string[] = [];
     private workDaysNumberOfDay: number[] = [];
     private addedDay: number = 0;
@@ -202,28 +199,6 @@ export class TlogService {
         }
     }
 
-    // public getWorkDaysInMonth(year: number, month: number) {
-    //     this._getWorkDaysInMonth(year, month).subscribe(
-    //         (data) => {
-    //             this.workDayBeans = data;
-    //             this.workDays = this.getWorkDays();
-    //             this.refreshWorkDays();
-    //             this.setupWeek();
-    //         },
-    //         (error) => {
-    //             console.log(error);
-    //         }
-    //     );
-    // }
-    //
-    // public getWorkDays(): string[] {
-    //     let workDays = [];
-    //     for (let index = 0; index < this.workDayBeans.length; index++) {
-    //         workDays[index] = this.workDayBeans[index].actualDay.toString();
-    //     }
-    //     return workDays;
-    // }
-
     public _getWorkDays(workMonths: any[]): string[] {
         let workDays = [];
         for(let i=0; i<workMonths.length; i++) {
@@ -252,33 +227,6 @@ export class TlogService {
         return workDays;
     }
 
-    // public getListOfTasks() {
-    //     let year = +this.selectedDayOnTaskList.split('-')[0];
-    //     let month = +this.selectedDayOnTaskList.split('-')[1];
-    //     let day = +this.selectedDayOnTaskList.split('-')[2];
-    //     this._getTasksOnSpecificDay(year, month, day).subscribe(
-    //         (data) => {
-    //             this.taskBeans = data;
-    //             this.getValues();
-    //         },
-    //         (error) => {
-    //             console.log(error);
-    //         }
-    //     );
-    // }
-    //
-    // private getValues(): void {
-    //     this.tasks = [];
-    //     for (let index = 0; index < this.taskBeans.length; index++) {
-    //         this.tasks[index] = [];
-    //         this.tasks[index][0] = this.taskBeans[index].taskId.toString();
-    //         this.tasks[index][1] = this.taskBeans[index].comment.toString();
-    //         this.tasks[index][2] = this.taskBeans[index].startTime.toString();
-    //         this.tasks[index][3] = this.taskBeans[index].endTime.toString();
-    //         this.tasks[index][4] = +this.taskBeans[index].minPerTask.toString();
-    //     }
-    // }
-
     private _getTasks(workMonths: any[]): any[] {
         let tasks = [];
         for(let i=0; i<workMonths.length; i++) {
@@ -299,21 +247,6 @@ export class TlogService {
         }
         return tasks;
     }
-    //
-    // getMonthlyStatistics(): number[] {
-    //     let statistics = [];
-    //     for (let index = 0; index < this.workMonthBeans.length; index++) {
-    //         if (this.workMonthBeans[index].monthDate === this.monthDisplay) {
-    //             statistics[0] = +this.workMonthBeans[index].extraMinPerMonth.toString();
-    //             statistics[1] = +this.workMonthBeans[index].sumPerMonth.toString();
-    //         }
-    //         if (statistics.length === 0) {
-    //             statistics[0] = 0;
-    //             statistics[1] = 0;
-    //         }
-    //     }
-    //     return statistics;
-    // }
 
     _getMonthlyStatistics(workMonths: any[]): number[] {
         let statistics = [];
@@ -347,18 +280,6 @@ export class TlogService {
 
     }
 
-    // public getWorkMonthsForMonthlyStatistics() {
-    //     this._getWorkMonths().subscribe(
-    //         (data) => {
-    //             this.setWorkMonthBeans(data);
-    //             this.monthlyStat = this.getMonthlyStatistics();
-    //         },
-    //         (error) => {
-    //             console.log(error);
-    //         }
-    //     );
-    // }
-
     getAllDisplayedData(): void {
         this._getWorkMonths().subscribe(
             (workMonths) => {
@@ -375,16 +296,12 @@ export class TlogService {
                 this.setupWeek();
                 this.dailyStat = this.getDailyStatistics(workMonths);
                 this.tasks = this._getTasks(workMonths);
-                console.log(workMonths);
-                console.log(this.sortedWorkDays);
-                console.log(this.selectedDayOnTaskList);
-                console.log(this.monthlyStat);
-                console.log(this.monthDisplay);
-                console.log(this.dailyStat);
-                console.log(this.weeks);
-                console.log(this.tasks);
+                console.log('tasks',this.tasks);
             },
             (err) => {
+                if(err.status === 401) {
+                    this.router.navigate(['/login']);
+                }
 
             }
         );
@@ -399,10 +316,6 @@ export class TlogService {
         console.log(this.headers);
         return this.http.get('http://127.0.0.1:9080/timelogger/workmonths', {headers: this.headers}).map((res) => <any[]> res.json());
     }
-
-    // public _getTasksOnSpecificDay(year: number, month: number, day: number): Observable<any> {
-    //     return this.http.get('http://127.0.0.1:9080/timelogger/workmonths/' + year + '/' + month + '/' + day, {headers: this.headers}).map((res: any) => res.json());
-    // }
 
     public loginUser(name: string, password: string): Observable<any> {
         let userBean = new UserRB(name, password);
@@ -637,12 +550,6 @@ export class TlogService {
             );
     }
 
-    // public reloadData() {
-    //     console.log('futott a reload');
-    //     this.router.navigate(['/calendar']);
-    //     setTimeout(() => this.router.navigate(['/tasklist']), 2000);
-    // }
-
     public getAddedDay(day: number) {
         this.addedDay = day;
     }
@@ -658,14 +565,6 @@ export class TlogService {
     public setSelectedDayOnTaskList(newSelectedValue: string) {
         this.selectedDayOnTaskList = newSelectedValue;
     }
-    //
-    // public setWorkMonthBeans(newValue: any) {
-    //     this.workMonthBeans = newValue;
-    // }
-    //
-    // public setWorkDays(newValue: string[]) {
-    //     this.workDays = newValue;
-    // }
 
     public setSelectedDate(newValue: Date) {
         this.selectedDate = newValue;
@@ -702,10 +601,6 @@ export class TlogService {
     public getSelectedDayOnTaskList(): string {
         return this.selectedDayOnTaskList;
     }
-
-    // public getWorkDayBeans(): any {
-    //     return this.workDayBeans;
-    // }
 
     public getTasks(): any[] {
         return this.tasks;
@@ -767,10 +662,6 @@ export class TlogService {
         this.headers = headers;
     }
 
-    // public getHeaders(): Headers {
-    //     return this.headers;
-    // }
-
     public getLoggedIn(): boolean {
         return this.loggedIn;
     }
@@ -778,14 +669,6 @@ export class TlogService {
     public setLoggedIn(newValue: boolean) {
         this.loggedIn = newValue;
     }
-    //
-    // public setDailyStat(newValue: number[]) {
-    //     this.dailyStat = newValue;
-    // }
-    //
-    // public setWorkDayBeans(newValue: any) {
-    //     this.workDayBeans = newValue;
-    // }
 
     public getSortedWorkDays(): string[] {
         return this.sortedWorkDays;

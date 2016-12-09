@@ -13,7 +13,6 @@ export class TaskListComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.tlogService.getListOfTasks();
     }
 
     getClickedEdit(taskId: string, comment: string, startTime: string, endTime: string) {
