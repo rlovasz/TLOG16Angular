@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 
 import '../style/app.scss';
 import {TlogService} from './shared/Services/tlog.service';
-import {Router} from "@angular/router";
-import {Headers} from "@angular/http";
+import {Router} from '@angular/router';
+import {Headers} from '@angular/http';
 
 @Component({
     selector: 'my-app',
@@ -23,11 +23,12 @@ export class AppComponent {
     logout() {
         this.tlogService.setLoggedIn(false);
         this.tlogService.setHeaders(new Headers({'Content-Type': 'application/json'}));
+        localStorage.removeItem('token');
     }
 
     homepage() {
         let loggedIn = this.tlogService.getLoggedIn();
-        if(loggedIn === true) {
+        if (loggedIn === true) {
             this.router.navigate(['/calendar']);
         } else {
             this.router.navigate(['/login']);

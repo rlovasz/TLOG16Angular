@@ -23,7 +23,7 @@ import {EditModalComponent} from './modals/editModal/edit-modal.component';
 import {NewTaskModalComponent} from './modals/newTaskModal/new-task-modal.component';
 import {DailyStatComponent} from './statistics/daily/daily-stat.component';
 import {MonthlyStatComponent} from './statistics/monthly/monthly-stat.component';
-import {LoginComponent} from "./login/login.component";
+import {LoginComponent} from './login/login.component';
 
 @NgModule({
     imports: [

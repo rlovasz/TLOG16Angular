@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TlogService} from '../../shared/Services/tlog.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class AddDayModalComponent implements OnInit {
             },
             (err) => {
                 if (err.status === 428) {
-                    let _this = this;
+                    let __this = this;
                     bootbox.confirm({
                         title: 'Warning',
                         buttons: {
@@ -42,28 +42,28 @@ export class AddDayModalComponent implements OnInit {
                         message: 'Are you sure you have a working day on weekend?',
                         callback: function (result) {
                             if (result) {
-                                _this.tlogService.addDayWeekend(requiredHours).subscribe(
+                                __this.tlogService.addDayWeekend(requiredHours).subscribe(
                                     (data) => {
 
                                     },
-                                    (err) => {
-                                        if (err.status === 403) {
+                                    (error) => {
+                                        if (error.status === 403) {
                                             bootbox.alert({
                                                 title: 'Warning',
                                                 message: 'You can not have a work day in the future!'
                                             });
-                                            _this.resetVal();
+                                            __this.resetVal();
                                         }
-                                        if (err.status === 449) {
+                                        if (error.status === 449) {
                                             bootbox.alert({
                                                 title: 'Warning',
                                                 message: 'You can not have negative working hours!'
                                             });
-                                            _this.resetVal();
+                                            __this.resetVal();
                                         }
-                                        if (err.status === undefined) {
-                                            _this.tlogService.getAllDisplayedData();
-                                            _this.resetVal();
+                                        if (error.status === undefined) {
+                                            __this.tlogService.getAllDisplayedData();
+                                            __this.resetVal();
                                         }
                                     }
                                 );

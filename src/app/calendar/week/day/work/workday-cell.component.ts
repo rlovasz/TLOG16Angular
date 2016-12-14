@@ -10,44 +10,15 @@ import {TlogService} from '../../../../shared/Services/tlog.service';
 export class WorkdayCellComponent implements OnInit {
     @Input() dayindex: number;
     @Input() weekindex: number;
-    workDaysBeans: any;
-    minutes: number[] = [];
+    @Input() minutes: number[];
     workDayIndex: number;
 
 
     constructor(private tlogService: TlogService, private router: Router) {}
 
     ngOnInit() {
-        this.getWorkDaysInMonth(this.tlogService.getSelectedYear(), this.tlogService.getSelectedMonth());
-    }
-
-    getWorkDaysInMonth(year: number, month: number) {
-        this.tlogService._getWorkDaysInMonth(year, month).subscribe(
-            (data) => {
-                this.workDaysBeans = data;
-                this.minutes = this.getMinutes();
-                this.tlogService.setWorkDayIndex(this.tlogService.getWorkDayIndex() + 1);
-                this.workDayIndex = this.tlogService.getWorkDayIndex();
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
-    }
-
-    getMinutes(): number[] {
-        let minutesAndDays = [];
-        let minutes = [];
-        for (let index = 0; index < this.workDaysBeans.length; index++) {
-            minutesAndDays[index] = [];
-            minutesAndDays[index][1] = +this.workDaysBeans[index].extraMinPerDay;
-            minutesAndDays[index][0] = +this.workDaysBeans[index].actualDay.toString().split('-')[2];
-        }
-        minutesAndDays.sort(this.tlogService.sortFunction);
-        for (let index = 0; index < this.workDaysBeans.length; index++) {
-            minutes[index] = minutesAndDays[index][1];
-        }
-        return minutes;
+        this.tlogService.setWorkDayIndex(this.tlogService.getWorkDayIndex() + 1);
+        this.workDayIndex = this.tlogService.getWorkDayIndex();
     }
 
     getExtraMinStyle() {
@@ -83,5 +54,4 @@ export class WorkdayCellComponent implements OnInit {
         this.tlogService.setSelectedDayOnTaskList(selectedDayOnTaskList);
         this.router.navigate(['/tasklist']);
     }
-
 }

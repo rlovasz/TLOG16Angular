@@ -1,6 +1,7 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TlogService} from '../shared/Services/tlog.service';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 
 @Component({
@@ -21,6 +22,10 @@ export class TaskListViewComponent implements OnInit {
         } catch (exception) {
             console.log(exception);
         }
+        this.tlogService.refreshToken();
+        Observable.interval(240000).subscribe(x => {
+            this.tlogService.refreshToken();
+        });
     }
 
     updateElement(newValue: string): void {

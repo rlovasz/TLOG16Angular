@@ -201,7 +201,7 @@ export class TlogService {
 
     public _getWorkDays(workMonths: any[]): string[] {
         let workDays = [];
-        for(let i=0; i<workMonths.length; i++) {
+        for (let i = 0; i < workMonths.length; i++) {
 
             if (workMonths[i].dateFromMonthDate[0] === this.selectedYear && workMonths[i].dateFromMonthDate[1] === this.selectedMonth) {
                 for (let j = 0; j < workMonths[i].days.length; j++) {
@@ -229,11 +229,11 @@ export class TlogService {
 
     private _getTasks(workMonths: any[]): any[] {
         let tasks = [];
-        for(let i=0; i<workMonths.length; i++) {
+        for (let i = 0; i < workMonths.length; i++) {
             if (workMonths[i].dateFromMonthDate[0] === this.selectedYear && workMonths[i].dateFromMonthDate[1] === this.selectedMonth) {
                 for (let j = 0; j < workMonths[i].days.length; j++) {
-                    if(workMonths[i].days[j].actualDay.toString() === this.selectedDayOnTaskList) {
-                        for(let k=0; k<workMonths[i].days[j].tasks.length; k++) {
+                    if (workMonths[i].days[j].actualDay.toString() === this.selectedDayOnTaskList) {
+                        for (let k = 0; k < workMonths[i].days[j].tasks.length; k++) {
                             tasks[k] = [];
                             tasks[k][0] = workMonths[i].days[j].tasks[k].taskId.toString();
                             tasks[k][1] = workMonths[i].days[j].tasks[k].comment.toString();
@@ -265,10 +265,10 @@ export class TlogService {
 
     getDailyStatistics(workMonths: any[]): number[] {
         let dailyStat = [];
-        for(let i=0; i<workMonths.length; i++) {
+        for (let i = 0; i < workMonths.length; i++) {
             if (workMonths[i].dateFromMonthDate[0] === this.selectedYear && workMonths[i].dateFromMonthDate[1] === this.selectedMonth) {
                 for (let j = 0; j < workMonths[i].days.length; j++) {
-                    if(workMonths[i].days[j].actualDay.toString() === this.selectedDayOnTaskList) {
+                    if (workMonths[i].days[j].actualDay.toString() === this.selectedDayOnTaskList) {
                         dailyStat[0] = workMonths[i].days[j].extraMinPerDay;
                         dailyStat[1] = workMonths[i].days[j].sumPerDay;
                         dailyStat[2] = workMonths[i].days[j].requiredMinPerDay;
@@ -283,12 +283,12 @@ export class TlogService {
     getAllDisplayedData(): void {
         this._getWorkMonths().subscribe(
             (workMonths) => {
-                console.log('getAllDisplayedData:');
+                this.setLoggedIn(true);
                 this.clearLists();
                 this.setupValues();
                 this.workDays = this._getWorkDays(workMonths);
                 this.sortedWorkDays = this.getSortedDays();
-                if(this.selectedDayOnTaskList === '') {
+                if (this.selectedDayOnTaskList === '') {
                     this.selectedDayOnTaskList = this.sortedWorkDays[0];
                 }
                 this.monthlyStat = this._getMonthlyStatistics(workMonths);
@@ -296,10 +296,9 @@ export class TlogService {
                 this.setupWeek();
                 this.dailyStat = this.getDailyStatistics(workMonths);
                 this.tasks = this._getTasks(workMonths);
-                console.log('tasks',this.tasks);
             },
             (err) => {
-                if(err.status === 401) {
+                if (err.status === 401) {
                     this.router.navigate(['/login']);
                 }
 
@@ -307,13 +306,29 @@ export class TlogService {
         );
     }
 
+    refreshToken() {
+        this._refreshToken().subscribe(
+            (data) => {
+                this.setJwtToken(data.headers.get('Authorization').split(' ')[1]);
+                let header = new Headers({'Content-Type': 'application/json', 'Authorization': data.headers.get('Authorization')});
+                this.setHeaders(header);
+                localStorage.removeItem('token');
+                localStorage.setItem('token', this.getJwtToken());
+            }
+        );
+    }
+
+
     public _getWorkDaysInMonth(year: number, month: number): Observable<any> {
-        console.log(this.headers);
-        return this.http.get('http://127.0.0.1:9080/timelogger/workmonths/' + year + '/' + month, {headers: this.headers} ).map((res: any) => res.json());
+        let header = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
+        this.setHeaders(header);
+        return this.http.get('http://127.0.0.1:9080/timelogger/workmonths/' + year + '/' + month, {headers: this.headers} )
+            .map((res: any) => res.json());
     }
 
     public _getWorkMonths(): Observable<any[]> {
-        console.log(this.headers);
+        let header = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
+        this.setHeaders(header);
         return this.http.get('http://127.0.0.1:9080/timelogger/workmonths', {headers: this.headers}).map((res) => <any[]> res.json());
     }
 
@@ -321,6 +336,11 @@ export class TlogService {
         let userBean = new UserRB(name, password);
         let user = JSON.stringify(userBean);
         return this.http.post('http://127.0.0.1:9080/timelogger/login', user, {headers: this.headers})
+            .map((res: any) => res);
+    }
+
+    public _refreshToken(): Observable<any> {
+        return this.http.get('http://127.0.0.1:9080/timelogger/refresh-token', {headers: this.headers})
             .map((res: any) => res);
     }
 
@@ -347,7 +367,6 @@ export class TlogService {
     }
 
     public addNewBasicTask(taskId: string, startTime: string): void {
-        console.log(this.selectedDayOnTaskList);
         let year = +this.selectedDayOnTaskList.split('-')[0];
         let month = +this.selectedDayOnTaskList.split('-')[1];
         let day = +this.selectedDayOnTaskList.split('-')[2];
@@ -527,7 +546,6 @@ export class TlogService {
         let taskBean = new ModifyTaskRB(year, month, day,
             this.editTaskId, this.editStartTime, newTaskId, newComment, newStartTime, newEndTime);
         let task = JSON.stringify(taskBean);
-        console.log(task);
         return this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/modify', task, {headers: this.headers})
             .map((res: Response) => res.json());
     }
@@ -538,7 +556,8 @@ export class TlogService {
         let day = +this.selectedDayOnTaskList.split('-')[2];
         let taskBean = new DeleteTaskRB(year, month, day, this.deleteTaskId, this.deleteStartTime);
         let task = JSON.stringify(taskBean);
-        this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/delete', task, {headers: this.headers}).map((res: Response) => res.json())
+        this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/delete', task, {headers: this.headers})
+            .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
                 },

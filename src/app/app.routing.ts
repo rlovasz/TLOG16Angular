@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {CalendarComponent} from './calendar/calendar.component';
 import {TaskListViewComponent} from './task-list-view/task-list-view.component';
-import {LoginComponent} from "./login/login.component";
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },

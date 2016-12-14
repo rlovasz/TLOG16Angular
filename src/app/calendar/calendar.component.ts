@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TlogService} from '../shared/Services/tlog.service';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'my-calendar',
@@ -15,10 +16,10 @@ export class CalendarComponent implements OnInit {
 
     ngOnInit() {
         this.tlogService.getAllDisplayedData();
-        // this.tlogService.clearLists();
-        // this.tlogService.setupValues();
-        // this.tlogService.getWorkDaysInMonth(this.tlogService.getSelectedYear(), this.tlogService.getSelectedMonth());
-        // this.tlogService.getWorkMonthsForMonthlyStatistics();
+        this.tlogService.refreshToken();
+        Observable.interval(240000).subscribe(x => {
+            this.tlogService.refreshToken();
+        });
     }
 
 

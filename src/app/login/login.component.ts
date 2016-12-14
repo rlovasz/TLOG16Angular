@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {TlogService} from "../shared/Services/tlog.service";
-import {Router} from "@angular/router";
-import {Headers} from "@angular/http";
+import {TlogService} from '../shared/Services/tlog.service';
+import {Router} from '@angular/router';
+import {Headers} from '@angular/http';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'login',
@@ -24,10 +25,14 @@ export class LoginComponent implements OnInit {
         this.tlogService.loginUser(name, password).subscribe(
             (data) => {
                 this.tlogService.setJwtToken(data.headers.get('Authorization').split(' ')[1]);
-                let header = new Headers({'Content-Type': 'application/json','Authorization': data.headers.get('Authorization')});
+                let header = new Headers({'Content-Type': 'application/json', 'Authorization': data.headers.get('Authorization')});
                 this.tlogService.setHeaders(header);
                 this.resetValue();
                 this.tlogService.setLoggedIn(true);
+                localStorage.setItem('token', this.tlogService.getJwtToken());
+                Observable.interval(240000).subscribe(x => {
+                    this.tlogService.refreshToken();
+                });
                 this.router.navigate(['/calendar']);
             },
             (err) => {
@@ -40,7 +45,6 @@ export class LoginComponent implements OnInit {
                 this.resetValue();
             }
         );
-
     }
 
     register(name: string, password: string) {
