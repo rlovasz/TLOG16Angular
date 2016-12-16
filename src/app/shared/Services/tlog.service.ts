@@ -45,6 +45,7 @@ export class TlogService {
     private jwtToken: string;
     private loggedIn: boolean = false;
     private headers;
+    private backendUrl: string = '/tlog-backend/timelogger';
 
     private sortedWorkDays: string[] = [];
     private selectedDayOnTaskList: string = '';
@@ -322,25 +323,25 @@ export class TlogService {
     public _getWorkDaysInMonth(year: number, month: number): Observable<any> {
         let header = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
         this.setHeaders(header);
-        return this.http.get('http://127.0.0.1:9080/timelogger/workmonths/' + year + '/' + month, {headers: this.headers} )
+        return this.http.get(this.backendUrl + '/workmonths/' + year + '/' + month, {headers: this.headers} )
             .map((res: any) => res.json());
     }
 
     public _getWorkMonths(): Observable<any[]> {
         let header = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
         this.setHeaders(header);
-        return this.http.get('http://127.0.0.1:9080/timelogger/workmonths', {headers: this.headers}).map((res) => <any[]> res.json());
+        return this.http.get(this.backendUrl + '/workmonths', {headers: this.headers}).map((res) => <any[]> res.json());
     }
 
     public loginUser(name: string, password: string): Observable<any> {
         let userBean = new UserRB(name, password);
         let user = JSON.stringify(userBean);
-        return this.http.post('http://127.0.0.1:9080/timelogger/login', user, {headers: this.headers})
+        return this.http.post(this.backendUrl + '/login', user, {headers: this.headers})
             .map((res: any) => res);
     }
 
     public _refreshToken(): Observable<any> {
-        return this.http.get('http://127.0.0.1:9080/timelogger/refresh-token', {headers: this.headers})
+        return this.http.get(this.backendUrl + '/refresh-token', {headers: this.headers})
             .map((res: any) => res);
     }
 
@@ -348,21 +349,21 @@ export class TlogService {
         let header = new Headers({'Content-Type': 'application/json'});
         let userBean = new UserRB(name, password);
         let user = JSON.stringify(userBean);
-        return this.http.post('http://127.0.0.1:9080/timelogger/register', user, {headers: header})
+        return this.http.post(this.backendUrl + '/register', user, {headers: header})
             .map((res: any) => res.json());
     }
 
     public addDayWeekday(requiredHours: number): Observable<any> {
         let workDayBean = new WorkDayRB(this.selectedYear, this.selectedMonth, this.addedDay, requiredHours);
         let workDay = JSON.stringify(workDayBean);
-        return this.http.post('http://127.0.0.1:9080/timelogger/workmonths/workdays', workDay, {headers: this.headers})
+        return this.http.post(this.backendUrl + '/workmonths/workdays', workDay, {headers: this.headers})
             .map((res: any) => res.json());
     }
 
     public addDayWeekend(requiredHours: number): Observable<any> {
         let workDayBean = new WorkDayRB(this.selectedYear, this.selectedMonth, this.addedDay, requiredHours);
         let workDay = JSON.stringify(workDayBean);
-        return this.http.post('http://127.0.0.1:9080/timelogger/workmonths/workdays/weekend', workDay, {headers: this.headers})
+        return this.http.post(this.backendUrl + '/workmonths/workdays/weekend', workDay, {headers: this.headers})
             .map((res: any) => res.json());
     }
 
@@ -372,7 +373,7 @@ export class TlogService {
         let day = +this.selectedDayOnTaskList.split('-')[2];
         let taskBean = new StartTaskRB(year, month, day, taskId, '', startTime);
         let task = JSON.stringify(taskBean);
-        this.http.post('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/start', task, {headers: this.headers})
+        this.http.post(this.backendUrl + '/workmonths/workdays/tasks/start', task, {headers: this.headers})
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
@@ -415,7 +416,7 @@ export class TlogService {
         let day = +this.selectedDayOnTaskList.split('-')[2];
         let taskBean = new StartTaskRB(year, month, day, taskId, comment, startTime);
         let task = JSON.stringify(taskBean);
-        this.http.post('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/start', task, {headers: this.headers})
+        this.http.post(this.backendUrl + '/workmonths/workdays/tasks/start', task, {headers: this.headers})
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
@@ -459,7 +460,7 @@ export class TlogService {
         let day = +this.selectedDayOnTaskList.split('-')[2];
         let taskBean = new FinishingTaskRB(year, month, day, taskId, startTime, endTime);
         let task = JSON.stringify(taskBean);
-        this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/finish', task, {headers: this.headers})
+        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/finish', task, {headers: this.headers})
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
@@ -502,7 +503,7 @@ export class TlogService {
         let day = +this.selectedDayOnTaskList.split('-')[2];
         let taskBean = new ModifyTaskRB(year, month, day, taskId, startTime, taskId, comment, startTime, endTime);
         let task = JSON.stringify(taskBean);
-        this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/modify', task, {headers: this.headers})
+        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/modify', task, {headers: this.headers})
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
@@ -546,7 +547,7 @@ export class TlogService {
         let taskBean = new ModifyTaskRB(year, month, day,
             this.editTaskId, this.editStartTime, newTaskId, newComment, newStartTime, newEndTime);
         let task = JSON.stringify(taskBean);
-        return this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/modify', task, {headers: this.headers})
+        return this.http.put(this.backendUrl + '/workmonths/workdays/tasks/modify', task, {headers: this.headers})
             .map((res: Response) => res.json());
     }
 
@@ -556,7 +557,7 @@ export class TlogService {
         let day = +this.selectedDayOnTaskList.split('-')[2];
         let taskBean = new DeleteTaskRB(year, month, day, this.deleteTaskId, this.deleteStartTime);
         let task = JSON.stringify(taskBean);
-        this.http.put('http://127.0.0.1:9080/timelogger/workmonths/workdays/tasks/delete', task, {headers: this.headers})
+        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/delete', task, {headers: this.headers})
             .map((res: Response) => res.json())
             .subscribe(
                 (data) => {
