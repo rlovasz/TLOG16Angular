@@ -33,14 +33,13 @@
     "@angular/platform-browser": "2.1.2",
     "@angular/platform-browser-dynamic": "2.1.2",
     "@angular/router": "3.1.2",
-    "angular2": "2.0.0-beta.0",
     "bootbox": "^4.4.0",
     "core-js": "^2.4.1",
     "es6-promise": "^3.0.2",
-    "es6-shim": "^0.33.3",
-    "reflect-metadata": "^0.1.8",
+    "es6-shim": "0.33.3",
+    "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "^0.6.26"
+    "zone.js": "0.6.21"
   },
   "devDependencies": {
     "@angularclass/hmr": "^1.0.1",
