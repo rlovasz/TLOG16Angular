@@ -1,0 +1,39 @@
+$main-color: darkcyan;
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th {
+    height: 30px;
+    background: $main-color;
+}
+
+td {
+    background: white;
+}
+
+th, td, h2{
+    text-align: center;
+}
+
+th.taskId, th.startTime, th.endTime{
+    width: 10%;
+}
+
+th.comment{
+    width: 40%;
+}
+
+th.minPerTask{
+    width: 15%;
+}
+
+span.glyphicons button{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: 0;
+    color: $main-color;
+}

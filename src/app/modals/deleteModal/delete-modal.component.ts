@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {TlogService} from '../../shared/Services/tlog.service';
 
 @Component({
     selector: 'delete-modal',
-    templateUrl: 'delete-modal.component.html'
+    templateUrl: 'delete-modal.component.html',
+    styleUrls: ['../modals.scss', 'delete-modal.component.scss']
 })
-export class DeleteModalComponent implements OnInit {
-    constructor(private tlogService: TlogService) { }
+/**
+ * This component contains a modal which comes up if the user wants to delete a task
+ */
+export class DeleteModalComponent {
 
-    ngOnInit() { }
+    constructor(private tlogService: TlogService) {
+
+    }
 
 }

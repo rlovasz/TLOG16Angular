@@ -1,6 +1,7 @@
-<p id="dayOfMonth">{{weekindex*7+dayindex+1-tlogService.getDayTypeOfFirstDay()}}</p>
-<p id="extraDaily" [style.color]="getExtraMinStyle()">Extra minutes: {{minutes[workDayIndex]}}</p>
+<p class="dayOfMonth">{{tlogService.getDayValue(weekindex, dayindex)}}</p>
+<p [ngClass]="{'positive-extra': isExtraMinutesPositive(), 'negative-extra':!isExtraMinutesPositive()}"
+>Extra minutes: {{minutes[workDayIndex]}}</p>
 <br><br>
-<a (click)="gotToTaskListView()" id="{{tlogService.getSelectedYear()}}-{{tlogService.getSelectedMonth()}}-{{weekindex*7+dayindex+1-tlogService.getDayTypeOfFirstDay()}} ">
+<a (click)="gotToTaskListView()" id="{{tlogService.selectedYear}}-{{tlogService.selectedMonth}}-{{tlogService.getDayValue(weekindex, dayindex)}} ">
     <span class="glyphicon glyphicon-pencil"></span>
 </a>

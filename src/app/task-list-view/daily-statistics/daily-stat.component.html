@@ -1,0 +1,7 @@
+<div class="col-md-6 grid-cell">
+    <p [ngClass]="{'positive-extra': isExtraMinPerDayPositive(), 'negative-extra':!isExtraMinPerDayPositive()}">
+        Extra minutes: {{tlogService.dailyStat[0]}}
+    </p>
+    <p>Sum of minutes: {{tlogService.dailyStat[1]}}</p>
+    <p>Required minutes today: {{tlogService.dailyStat[2]}}</p>
+</div>

@@ -9,7 +9,12 @@
                 <p>Are you sure you want to delete this task?</p>
             </div>
             <div class="modal-footer">
-                <button (click)="tlogService.deleteTask()" type="submit" data-dismiss="modal" id="yes">Yes</button>
+                <button (click)="tlogService.deleteTaskOnBackend()"
+                        type="submit"
+                        data-dismiss="modal"
+                        id="yes"
+                >Yes
+                </button>
                 <button type="submit" data-dismiss="modal" id="no">No</button>
             </div>
         </div>

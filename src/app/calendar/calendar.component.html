@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-       <monthly-stat></monthly-stat>
+        <monthly-stat></monthly-stat>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -13,7 +13,11 @@
                 <p>{{day}}</p>
             </div>
         </div>
-        <my-week [week]="week" [weekindex]="weekindex" class="row calendar-week" *ngFor="let week of tlogService.getWeeks(); let weekindex=index"></my-week>
+        <my-week [week]="week"
+                 [weekindex]="weekindex"
+                 class="row calendar-week"
+                 *ngFor="let week of tlogService.weeks; let weekindex=index"
+        ></my-week>
         <add-day-modal></add-day-modal>
     </div>
 </div>

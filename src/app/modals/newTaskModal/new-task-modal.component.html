@@ -1,6 +1,5 @@
 <div class="modal fade" id="newTaskModal" role="dialog">
     <div class="modal-dialog">
-
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" (click)="resetVal()">&times;</button>
@@ -8,14 +7,39 @@
             </div>
             <div class="modal-body">
                 <form action="listTasks.html">
-                    <input #taskId type="text" name="taskId" [(ngModel)]="task_id" placeholder="Task id" required>
-                    <input #comment type="text" name="comment" [(ngModel)]="comment_clear" placeholder="Comment">
-                    <input #startTime type="text" name="startTime" [(ngModel)]="start_time"  placeholder="Start time" required>
-                    <input #endTime type="text" name="endTime" [(ngModel)]="end_time"  placeholder="End time">
-                    <input (click)="this.addNewTask(taskId.value, comment.value, startTime.value, endTime.value)" type="submit" data-dismiss="modal">
+                    <input #taskId
+                           type="text"
+                           name="taskId"
+                           [(ngModel)]="task_id"
+                           placeholder="Task id"
+                    >
+                    <input #comment
+                           type="text"
+                           name="comment"
+                           [(ngModel)]="comment_clear"
+                           placeholder="Comment"
+                    >
+                    <input #startTime
+                           type="time"
+                           name="startTime"
+                           [(ngModel)]="start_time"
+                           placeholder="Start time"
+                    >
+                    <input #endTime
+                           type="time"
+                           name="endTime"
+                           [(ngModel)]="end_time"
+                           placeholder="End time"
+                    >
                 </form>
             </div>
             <div class="modal-footer">
+                <button
+                    (click)="this.addNewTask(taskId.value, comment.value, startTime.value, endTime.value)"
+                    type="submit"
+                    data-dismiss="modal"
+                >OK
+                </button>
             </div>
         </div>
     </div>

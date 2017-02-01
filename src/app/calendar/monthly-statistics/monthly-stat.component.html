@@ -1,0 +1,12 @@
+<div class="col-md-6 grid-cell" id="monthlyStat">
+    <div class="row">
+        <p id="extraMonthly"
+           [ngClass]="{'positive-extra': isExtraMinPerMonthPositive(), 'negative-extra': !isExtraMinPerMonthPositive()}"
+        >
+            Extra minutes: {{tlogService.monthlyStat[0]}}
+        </p>
+    </div>
+    <div class="row">
+        <p id="sumMonthly">Sum of minutes: {{tlogService.monthlyStat[1]}}</p>
+    </div>
+</div>

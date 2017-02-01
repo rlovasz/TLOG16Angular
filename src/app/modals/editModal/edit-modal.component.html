@@ -6,13 +6,18 @@
                 <p class="modal-title">Modifications of task</p>
             </div>
             <div class="modal-body">
-                <input #newTaskId type="text" name="taskId" value={{tlogService.getEditTaskId()}}>
-                <input #newComment type="text" name="comment" value={{tlogService.getEditComment()}}>
-                <input #newStartTime type="text" name="startTime" value={{tlogService.getEditStartTime()}}>
-                <input #newEndTime type="text" name="endTime" value={{tlogService.getEditEndTime()}}>
+                <input #newTaskId type="text" name="taskId" value={{tlogService.editTaskId}}>
+                <input #newComment type="text" name="comment" value={{tlogService.editComment}}>
+                <input #newStartTime type="time" name="startTime" value={{tlogService.editStartTime}}>
+                <input #newEndTime type="time" name="endTime" value={{tlogService.editEndTime}}>
             </div>
             <div class="modal-footer">
-                <button (click)="modifyTaskWithGivenData(newTaskId.value, newComment.value, newStartTime.value, newEndTime.value)"  type="submit" data-dismiss="modal">OK</button>
+                <button
+                    (click)="modifyTaskWithGivenData(newTaskId.value, newComment.value, newStartTime.value, newEndTime.value)"
+                    type="submit"
+                    data-dismiss="modal"
+                >OK
+                </button>
             </div>
         </div>
     </div>

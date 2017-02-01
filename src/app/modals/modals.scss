@@ -1,0 +1,22 @@
+$main-color: darkcyan;
+
+.modal-header, .modal-footer{
+    background: $main-color;
+}
+
+.modal-body p{
+    font-size: 12px;
+}
+
+.modal-content{
+    width: 150%
+}
+
+.modal-title{
+    font-size: 20px;
+}
+
+div.modal-footer button{
+    margin: 0 22%;
+    font-size: 20px;
+}

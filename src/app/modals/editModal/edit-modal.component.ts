@@ -1,45 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {TlogService} from '../../shared/Services/tlog.service';
 
 @Component({
     selector: 'edit-modal',
-    templateUrl: 'edit-modal.component.html'
+    templateUrl: 'edit-modal.component.html',
+    styleUrls: ['../modals.scss', 'edit-modal.component.scss']
 })
-export class EditModalComponent implements OnInit {
+/**
+ * This component comtains a modal which comes up when the user wants to modify one of its task
+ */
+export class EditModalComponent {
 
-    constructor(private tlogService: TlogService) { }
+    constructor(private tlogService: TlogService) {
 
-    ngOnInit() { }
+    }
 
-    modifyTaskWithGivenData(newTaskId: string, newComment: string, newStartTime: string, newEndTime: string) {
-        this.tlogService.modifyTask(newTaskId, newComment, newStartTime, newEndTime).subscribe(
+    /**
+     * This method does the modifications with a backend call based on the input values
+     * @param newTaskId the new value of task id
+     * @param newComment the new value of comment
+     * @param newStartTime the new value of start time
+     * @param newEndTime the new value of end time
+     */
+    public modifyTaskWithGivenData(newTaskId: string, newComment: string, newStartTime: string, newEndTime: string): void {
+        this.tlogService.modifyTaskOnBackend(newTaskId, newComment, newStartTime, newEndTime).subscribe(
             (data) => {
 
             },
             (err) => {
                 if (err.status === 417) {
-                    bootbox.alert({
-                        title: 'Warning',
-                        message: 'The task should begin earlier then it ends!'
-                    });
+                    this.tlogService.sendAlert('The task should begin earlier then it ends!');
                 }
                 if (err.status === 406) {
-                    bootbox.alert({
-                        title: 'Warning',
-                        message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
-                    });
+                    this.tlogService.sendAlert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
                 }
                 if (err.status === 416) {
-                    bootbox.alert({
-                        title: 'Warning',
-                        message: 'The duration of the task should be multiple of the quarter hours!'
-                    });
+                    this.tlogService.sendAlert('The duration of the task should be multiple of the quarter hours!');
                 }
                 if (err.status === 409) {
-                    bootbox.alert({
-                        title: 'Warning',
-                        message: 'The task has a common interval with an existing task, the intervals should be separated!'
-                    });
+                    this.tlogService.sendAlert('The task has a common interval with an existing task, the intervals should be separated!');
                 }
                 if (err.status === undefined) {
                     this.tlogService.getAllDisplayedData();

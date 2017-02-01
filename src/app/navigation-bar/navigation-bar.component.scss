@@ -1,0 +1,19 @@
+$main-color: darkcyan;
+
+.navbar.navbar-inverse {
+    background: $main-color;
+
+    .navbar-header h1 {
+        margin: 0;
+        float: left;
+
+    }
+
+    .navbar-right {
+        float: left;
+        margin-left: 1300px;
+        width: 150px;
+        text-align: center;
+    }
+}
+

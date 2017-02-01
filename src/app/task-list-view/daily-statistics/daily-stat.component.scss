@@ -1,0 +1,20 @@
+$main-color: darkcyan;
+
+div{
+    margin: 0 30px;
+    height: 100px;
+    width: 270px;
+    border-style: solid;
+    border-color: $main-color;
+    border-width: 1px;
+    text-align: left;
+    background: white;
+
+    p.negative-extra{
+        color: red;
+    }
+
+    p.positive-extra{
+        color: green;
+    }
+}

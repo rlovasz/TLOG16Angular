@@ -1,30 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {TlogService} from '../../shared/Services/tlog.service';
 
 @Component({
     selector: 'task-list',
-    templateUrl: 'task-list.component.html'
+    templateUrl: 'task-list.component.html',
+    styleUrls: ['task-list.component.scss']
 })
-export class TaskListComponent implements OnInit {
-
-
+export class TaskListComponent {
 
     constructor(private tlogService: TlogService) {
+
     }
 
-    ngOnInit() {
+    /**
+     * Sends the edited task's informations to tlogService
+     * @param taskId
+     * @param comment
+     * @param startTime
+     * @param endTime
+     */
+    public getClickedEdit(taskId: string, comment: string, startTime: string, endTime: string): void {
+        this.tlogService.editTaskId = taskId;
+        this.tlogService.editComment = comment;
+        this.tlogService.editStartTime = startTime;
+        this.tlogService.editEndTime = endTime;
     }
 
-    getClickedEdit(taskId: string, comment: string, startTime: string, endTime: string) {
-        this.tlogService.setEditTaskId(taskId);
-        this.tlogService.setEditComment(comment);
-        this.tlogService.setEditStartTime(startTime);
-        this.tlogService.setEditEndTime(endTime);
-    }
-
-    getClickedDelete(taskId: string, startTime: string) {
-        this.tlogService.setDeleteTaskId(taskId);
-        this.tlogService.setDeleteStartTime(startTime);
+    /**
+     * Sends the deleted task's informations to tlogService
+     * @param taskId
+     * @param startTime
+     */
+    public getClickedDelete(taskId: string, startTime: string): void {
+        this.tlogService.deleteTaskId = taskId;
+        this.tlogService.deleteStartTime = startTime;
     }
 
 

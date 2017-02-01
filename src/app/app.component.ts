@@ -7,32 +7,13 @@ import {Headers} from '@angular/http';
 
 @Component({
     selector: 'my-app',
-    templateUrl: './app.component.html',
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
 
     constructor(private tlogService: TlogService, private router: Router) {
+
     }
 
-    setNewSelectedMonth() {
-        let sortedWorkDays = this.tlogService.getSortedDays();
-        console.log(sortedWorkDays);
-        this.tlogService.setSelectedDayOnTaskList(sortedWorkDays[0]);
-    }
-
-    logout() {
-        this.tlogService.setLoggedIn(false);
-        this.tlogService.setHeaders(new Headers({'Content-Type': 'application/json'}));
-        localStorage.removeItem('token');
-    }
-
-    homepage() {
-        let loggedIn = this.tlogService.getLoggedIn();
-        if (loggedIn === true) {
-            this.router.navigate(['/calendar']);
-        } else {
-            this.router.navigate(['/login']);
-        }
-    }
 
 }

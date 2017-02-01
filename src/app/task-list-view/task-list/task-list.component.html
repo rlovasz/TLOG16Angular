@@ -2,27 +2,37 @@
     <table class="table">
         <thead>
         <tr>
-            <th id="taskId">Task id</th>
-            <th id="comment">Comment</th>
-            <th id="startTime">Start time</th>
-            <th id="endTime">End time</th>
-            <th id="minPerTask">Length of task in minutes</th>
-            <th id="edit">Edit</th>
+            <th class="taskId">Task id</th>
+            <th class="comment">Comment</th>
+            <th class="startTime">Start time</th>
+            <th class="endTime">End time</th>
+            <th class="minPerTask">Length of task in minutes</th>
+            <th class="edit">Edit</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let task of tlogService.getTasks()">
-            <td>{{task[0]}}</td>
-            <td>{{task[1]}}</td>
-            <td>{{task[2]}}</td>
-            <td>{{task[3]}}</td>
-            <td>{{task[4]}}</td>
+        <tr *ngFor="let task of tlogService.tasks">
+            <td>{{task.taskId}}</td>
+            <td>{{task.comment}}</td>
+            <td>{{task.startTime}}</td>
+            <td>{{task.endTime}}</td>
+            <td>{{task.minPerTask}}</td>
             <td>
-                <span id="glyphicons">
-					<button (click)="getClickedEdit(task[0], task[1], task[2], task[3])" type="button" class="btn" data-toggle="modal" data-target="#editModal">
+                <span class="glyphicons">
+					<button (click)="getClickedEdit(task.taskId, task.comment, task.startTime, task.endTime)"
+                            type="button"
+                            class="btn"
+                            data-toggle="modal"
+                            data-target="#editModal"
+                    >
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-					<button (click)="getClickedDelete(task[0], task[2])" type="button" class="btn" data-toggle="modal" data-target="#deleteModal">
+					<button (click)="getClickedDelete(task.taskId, task.startTime)"
+                            type="button"
+                            class="btn"
+                            data-toggle="modal"
+                            data-target="#deleteModal"
+                    >
                         <span class="glyphicon glyphicon-remove"></span>
                     </button>
 				</span>

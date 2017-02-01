@@ -3,54 +3,37 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
-
 import { AppComponent } from './app.component';
 
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
-import {CalendarComponent} from './calendar/calendar.component';
 import {TlogService} from './shared/Services/tlog.service';
-import {TaskListViewComponent} from './task-list-view/task-list-view.component';
-import {TaskListComponent} from './task-list-view/task-list/task-list.component';
-import {PagerComponent} from './calendar/pager/pager.component';
-import {WeekComponent} from './calendar/week/week.component';
-import {DayComponent} from './calendar/week/day/simple/day.component';
-import {WorkdayCellComponent} from './calendar/week/day/work/workday-cell.component';
-import {AddDayModalComponent} from './modals/addDayModal/add-day-modal.component';
-import {DeleteModalComponent} from './modals/deleteModal/delete-modal.component';
-import {EditModalComponent} from './modals/editModal/edit-modal.component';
-import {NewTaskModalComponent} from './modals/newTaskModal/new-task-modal.component';
-import {DailyStatComponent} from './statistics/daily/daily-stat.component';
-import {MonthlyStatComponent} from './statistics/monthly/monthly-stat.component';
-import {LoginComponent} from './login/login.component';
+import {ModalsModule} from "./modals/modals.module";
+import {CalendarModule} from "./calendar/calendar.module";
+import {TaskListViewModule} from "./task-list-view/task-list-view.module";
+import {LoginModule} from "./login/login.module";
+import {NavigationBarComponent} from "./navigation-bar/navigation-bar.component";
+import {LoginService} from "./shared/Services/login.service";
 
 @NgModule({
     imports: [
         BrowserModule,
         HttpModule,
         FormsModule,
-        routing
+        routing,
+        ModalsModule,
+        CalendarModule,
+        TaskListViewModule,
+        LoginModule
     ],
     declarations: [
         AppComponent,
-        CalendarComponent,
-        TaskListViewComponent,
-        TaskListComponent,
-        PagerComponent,
-        WeekComponent,
-        DayComponent,
-        WorkdayCellComponent,
-        AddDayModalComponent,
-        DeleteModalComponent,
-        EditModalComponent,
-        NewTaskModalComponent,
-        DailyStatComponent,
-        MonthlyStatComponent,
-        LoginComponent
+        NavigationBarComponent
     ],
     providers: [
-        TlogService
+        TlogService,
+        LoginService
     ],
     bootstrap: [AppComponent]
 })

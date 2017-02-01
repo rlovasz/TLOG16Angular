@@ -1,18 +1,21 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {TlogService} from '../../../../shared/Services/tlog.service';
 
 @Component({
     selector: 'my-day',
-    templateUrl: 'day.component.html'
+    templateUrl: 'day.component.html',
+    styleUrls: ['day.component.scss']
 })
-export class DayComponent implements OnInit {
-    @Input() dayindex: number;
-    @Input() weekindex: number;
-    constructor(private tlogService: TlogService) { }
+/**
+ * This component visualizes the simple days in the calendar
+ */
+export class DayComponent {
+    @Input() public dayindex: number;
+    @Input() public weekindex: number;
 
-    ngOnInit() {
+    constructor(private tlogService: TlogService) {
+
     }
-
 
 }
 

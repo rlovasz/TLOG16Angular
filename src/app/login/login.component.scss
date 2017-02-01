@@ -1,0 +1,21 @@
+$main-color: darkcyan;
+.loginbox {
+    visibility: visible;
+    text-align: center;
+    background: $main-color;
+    margin: auto;
+    position: absolute;
+    top: 40%; left: 40%; bottom: 40%; right: 40%;
+
+    form {
+        font-size: large;
+    }
+
+    label {
+        margin-top: 5px;
+    }
+
+    button {
+        margin-top: 10px;
+    }
+}

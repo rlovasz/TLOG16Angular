@@ -5,53 +5,51 @@ import {TlogService} from '../../../../shared/Services/tlog.service';
 
 @Component({
     selector: 'my-workday-cell',
-    templateUrl: 'workday-cell.component.html'
+    templateUrl: 'workday-cell.component.html',
+    styleUrls: ['workday-cell.component.scss']
 })
+/**
+ * This component realizes the existing work days in the calendar
+ */
 export class WorkdayCellComponent implements OnInit {
-    @Input() dayindex: number;
-    @Input() weekindex: number;
-    @Input() minutes: number[];
-    workDayIndex: number;
+    @Input() public dayindex: number;
+    @Input() public weekindex: number;
+    @Input() public minutes: number[];
+    private workDayIndex: number;
 
 
-    constructor(private tlogService: TlogService, private router: Router) {}
+    constructor(private tlogService: TlogService, private router: Router) {
 
-    ngOnInit() {
-        this.tlogService.setWorkDayIndex(this.tlogService.getWorkDayIndex() + 1);
-        this.workDayIndex = this.tlogService.getWorkDayIndex();
     }
 
-    getExtraMinStyle() {
-        if (this.minutes[this.tlogService.getWorkDayIndex()] >= 0) {
-            return 'green';
+    /**
+     * increases the value of workDayIndex with 1 and gets its new value
+     */
+    ngOnInit(): void {
+        this.tlogService.workDayIndex = this.tlogService.workDayIndex + 1;
+        this.workDayIndex = this.tlogService.workDayIndex;
+    }
+
+    /**
+     * This method decides if the value of the extra minutes this day is positive or negative
+     * @returns {boolean}
+     */
+    public isExtraMinutesPositive(): boolean {
+        if (this.minutes[this.workDayIndex] >= 0) {
+            return true;
         } else {
-            return 'red';
+            return false;
         }
     }
 
-    gotToTaskListView(): void {
-        let selectedYear = this.tlogService.getSelectedYear();
-        let selectedMonth = this.tlogService.getSelectedMonth();
-        let dayTypeOfFirstDay = this.tlogService.getDayTypeOfFirstDay();
-        let selectedDayOnTaskList = this.tlogService.getSelectedDayOnTaskList();
-        if (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay < 10) {
-            if (selectedMonth < 10) {
-                selectedDayOnTaskList = selectedYear.toString() + '-0' + selectedMonth.toString() + '-0' +
-                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
-            } else {
-                selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-0' +
-                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
-            }
-        } else {
-            if (selectedMonth < 10) {
-                selectedDayOnTaskList = selectedYear.toString() + '-0' + selectedMonth.toString() + '-' +
-                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
-            } else {
-                selectedDayOnTaskList = selectedYear.toString() + '-' + selectedMonth.toString() + '-' +
-                    (this.weekindex * 7 + this.dayindex + 1 - dayTypeOfFirstDay).toString();
-            }
-        }
-        this.tlogService.setSelectedDayOnTaskList(selectedDayOnTaskList);
+    /**
+     * This method navigates to the task-list view, the displayed day will be the one the user clicked on
+     */
+    public gotToTaskListView(): void {
+        let selectedYear: number = this.tlogService.selectedYear;
+        let selectedMonth: number = this.tlogService.selectedMonth;
+        let selectedDayOnTaskList = `${selectedYear}-${('00' + selectedMonth).substr(-2)}-${('00' + (this.tlogService.getDayValue(this.weekindex, this.dayindex))).substr(-2)}`;
+        this.tlogService.selectedDayOnTaskList = selectedDayOnTaskList;
         this.router.navigate(['/tasklist']);
     }
 }

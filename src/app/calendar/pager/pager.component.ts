@@ -1,32 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {TlogService} from '../../shared/Services/tlog.service';
-
-
-
 
 @Component({
     selector: 'my-pager',
-    templateUrl: 'pager.component.html'
+    templateUrl: 'pager.component.html',
+    styleUrls: ['pager.component.scss']
 })
-export class PagerComponent implements OnInit {
+/**
+ * This component accomplishes the paging operations
+ */
+export class PagerComponent {
 
     constructor(private tlogService: TlogService) {
+
     }
 
-    ngOnInit() {
+    /**
+     *This method moves the actual displayed month into the previous one, this will calculate all the needed values to display the month
+     */
+    public prevClick(): void {
+        this.paging(-1);
     }
 
-    prevClick() {
-        let selectedDate = this.tlogService.getSelectedDate();
-        selectedDate.setMonth(selectedDate.getMonth() - 1);
-        this.tlogService.setSelectedDate(selectedDate);
-        this.tlogService.getAllDisplayedData();
+    /**
+     * This method moves the actual displayed month into the next one, this will calculate all the needed values to display the month
+     */
+    public nextClick(): void {
+        this.paging(1);
     }
 
-    nextClick() {
-        let selectedDate = this.tlogService.getSelectedDate();
-        selectedDate.setMonth(selectedDate.getMonth() + 1);
-        this.tlogService.setSelectedDate(selectedDate);
+    private paging(pagedMonths: number): void {
+        let selectedDate: Date = this.tlogService.selectedDate;
+        selectedDate = new Date(selectedDate.getFullYear(),selectedDate.getMonth()+pagedMonths,1);
+        this.tlogService.selectedDate = selectedDate;
         this.tlogService.getAllDisplayedData();
     }
 }

@@ -1,0 +1,24 @@
+$main-color: darkcyan;
+
+div#monthlyStat {
+    margin: 0 50px;
+    height: 55px;
+    width: 270px;
+    border-style: solid;
+    border-color: $main-color;
+    border-width: 1px;
+    text-align: left;
+    background: white;
+
+    .row p {
+        display: inline-table;
+    }
+
+    p.negative-extra{
+        color: red;
+    }
+
+    p.positive-extra{
+        color: green;
+    }
+}

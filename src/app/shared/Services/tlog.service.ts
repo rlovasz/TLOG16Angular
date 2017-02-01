@@ -4,65 +4,65 @@ import {
     Week,
     WorkDayRB,
     Day,
+    Task,
     StartTaskRB,
-    FinishingTaskRB,
     ModifyTaskRB,
     DeleteTaskRB,
-    UserRB
+    UserRB, WorkDay, WorkMonth
 } from '../Classes/Classes';
 import {Headers, Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {Router} from '@angular/router';
 
-
+/**
+ * This service gives the data for the components and gets some data from the components
+ */
 @Injectable()
 export class TlogService {
 
-    private selectedDate: any;
-    private selectedMonth: number;
-    private selectedYear: number;
+
+    private _selectedDate: any;
+    private _selectedMonth: number;
+    private _selectedYear: number;
 
     private dayTypeOfFirstDay: number;
     private dayTypeOfLastDay: number;
     private daysInMonth: number;
     private amountOfDisplayedCells: number = 0;
-    private firstWeek: Week = new Week();
-    private secondWeek: Week = new Week();
-    private thirdWeek: Week = new Week();
-    private fourthWeek: Week = new Week();
-    private fifthWeek: Week = new Week();
-    private sixthWeek: Week = new Week();
     private workDays: string[] = [];
     private workDaysNumberOfDay: number[] = [];
-    private addedDay: number = 0;
-    private editTaskId: string;
-    private editComment: string;
-    private editStartTime: string;
-    private editEndTime: string;
-    private deleteTaskId: string;
-    private deleteStartTime: string;
-    private workDayIndex: number = -1;
-    private jwtToken: string;
-    private loggedIn: boolean = false;
-    private headers;
-    private backendUrl: string = '/tlog-backend/timelogger';
+    private _addedDay: number = 0;
+    private _editTaskId: string;
+    private _editComment: string;
+    private _editStartTime: string;
+    private _editEndTime: string;
+    private _deleteTaskId: string;
+    private _deleteStartTime: string;
+    private _workDayIndex: number = -1;
+    private _jwtToken: string;
+    private _loggedIn: boolean = false;
+    private _headers;
+    private backendUrl: string = 'http://127.0.0.1:9080/timelogger';
 
-    private sortedWorkDays: string[] = [];
-    private selectedDayOnTaskList: string = '';
-    private monthlyStat: number[] = [0, 0];
-    private dailyStat: number[] = [0, 0, 0];
-    private monthDisplay: string;
-    private tasks: any[] = [];
-    private weeks: Week[] = [];
+    private _sortedWorkDays: string[] = [];
+    private _selectedDayOnTaskList: string = '';
+    private yearOfSelectedDayOnTaskList: number;
+    private monthOfSelectedDayOnTaskList: number;
+    private dayOfSelectedDayOnTaskList: number;
+    private _monthlyStat: number[] = [0, 0];
+    private _dailyStat: number[] = [0, 0, 0];
+    private _monthDisplay: string;
+    private _tasks: Array<Task>;
+    private _weeks: Week[] = [];
+    private _tokenRefreshIntervalInMillis: number = 240000;
 
-
-    constructor(private http: Http, private router: Router) {
-        this.selectedDate = new Date();
-        this.headers = new Headers({'Content-Type': 'application/json'});
-        this.getAllDisplayedData();
-    }
-
-    public sortFunction(a, b): number {
+    /**
+     * This method helps with sorting
+     * @param a
+     * @param b
+     * @returns {number}
+     */
+    public static sortFunction(a, b): number {
         if (a[0] === b[0]) {
             return 0;
         } else {
@@ -70,189 +70,471 @@ export class TlogService {
         }
     }
 
-    public setupValues() {
-        this.selectedMonth = this.selectedDate.getMonth() + 1;
-        this.selectedYear = this.selectedDate.getFullYear();
-        if (this.selectedMonth >= 10) {
-            this.monthDisplay = this.selectedYear + '-' + this.selectedMonth;
-        } else {
-            this.monthDisplay = this.selectedYear + '-0' + this.selectedMonth;
-        }
-        this.daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
-        this.dayTypeOfFirstDay = new Date(this.selectedYear, this.selectedMonth - 1, 0).getDay();
-        this.dayTypeOfLastDay = new Date(this.selectedYear, this.selectedMonth - 1, this.daysInMonth - 1).getDay();
+    constructor(private http: Http, private router: Router) {
+        this._selectedDate = new Date();
+        this._headers = new Headers({'Content-Type': 'application/json'});
+        this.getAllDisplayedData();
+    }
+
+    get selectedDate(): any {
+        return this._selectedDate;
+    }
+
+    get tokenRefreshIntervalInMillis(): number {
+        return this._tokenRefreshIntervalInMillis;
+    }
+
+    get selectedMonth(): number {
+        return this._selectedMonth;
+    }
+
+    get selectedYear(): number {
+        return this._selectedYear;
+    }
+
+    get editTaskId(): string {
+        return this._editTaskId;
+    }
+
+    get editComment(): string {
+        return this._editComment;
+    }
+
+    get editStartTime(): string {
+        return this._editStartTime;
+    }
+
+    get editEndTime(): string {
+        return this._editEndTime;
+    }
+
+    get workDayIndex(): number {
+        return this._workDayIndex;
+    }
+
+    get jwtToken(): string {
+        return this._jwtToken;
+    }
+
+    get loggedIn(): boolean {
+        return this._loggedIn;
+    }
+
+    get sortedWorkDays(): string[] {
+        return this._sortedWorkDays;
+    }
+
+    get selectedDayOnTaskList(): string {
+        return this._selectedDayOnTaskList;
+    }
+
+    get monthlyStat(): number[] {
+        return this._monthlyStat;
+    }
+
+    get dailyStat(): number[] {
+        return this._dailyStat;
+    }
+
+    get monthDisplay(): string {
+        return this._monthDisplay;
+    }
+
+    get tasks(): Array<Task> {
+        return this._tasks;
+    }
+
+    get weeks(): Week[] {
+        return this._weeks;
+    }
+
+    set selectedDate(value: any) {
+        this._selectedDate = value;
+    }
+
+    set addedDay(value: number) {
+        this._addedDay = value;
+    }
+
+    set editTaskId(value: string) {
+        this._editTaskId = value;
+    }
+
+    set editComment(value: string) {
+        this._editComment = value;
+    }
+
+    set editStartTime(value: string) {
+        this._editStartTime = value;
+    }
+
+    set editEndTime(value: string) {
+        this._editEndTime = value;
+    }
+
+    set deleteTaskId(value: string) {
+        this._deleteTaskId = value;
+    }
+
+    set deleteStartTime(value: string) {
+        this._deleteStartTime = value;
+    }
+
+    set workDayIndex(value: number) {
+        this._workDayIndex = value;
+    }
+
+    set jwtToken(value: string) {
+        this._jwtToken = value;
+    }
+
+    set loggedIn(value: boolean) {
+        this._loggedIn = value;
+    }
+
+    set headers(value) {
+        this._headers = value;
+    }
+
+    set monthlyStat(value: number[]) {
+        this._monthlyStat = value;
+    }
+
+    set selectedDayOnTaskList(value: string) {
+        this._selectedDayOnTaskList = value;
+    }
+
+    /**
+     * This method displays an alert with the given message
+     * @param message
+     */
+    public sendAlert(message: string) {
+        bootbox.alert({
+            title: 'Warning',
+            message: message
+        });
+    }
+
+    /**
+     * Setup some values based on the information of the selected month
+     */
+    public setupValues(): void {
+        this._selectedMonth = this._selectedDate.getMonth() + 1;
+        this._selectedYear = this._selectedDate.getFullYear();
+        this._monthDisplay = `${this._selectedYear}-${('00' + this._selectedMonth).substr(-2)}`;
+        this.daysInMonth = new Date(this._selectedYear, this._selectedMonth, 0).getDate();
+        this.dayTypeOfFirstDay = new Date(this._selectedYear, this._selectedMonth - 1, 0).getDay();
+        this.dayTypeOfLastDay = new Date(this._selectedYear, this._selectedMonth - 1, this.daysInMonth - 1).getDay();
         this.amountOfDisplayedCells = this.dayTypeOfFirstDay + this.daysInMonth + 6 - this.dayTypeOfLastDay;
     }
 
-    public clearLists() {
-        this.weeks = [];
-        this.firstWeek = new Week();
-        this.secondWeek = new Week();
-        this.thirdWeek = new Week();
-        this.fourthWeek = new Week();
-        this.fifthWeek = new Week();
-        this.sixthWeek = new Week();
+    /**
+     * Resets some basic values
+     */
+    public resetValues(): void {
+        this._weeks = [];
+        this._weeks[0] = new Week();
+        this._weeks[1] = new Week();
+        this._weeks[2] = new Week();
+        this._weeks[3] = new Week();
+        this._weeks[4] = new Week();
+        this._weeks[5] = new Week();
         this.workDays = [];
         this.workDaysNumberOfDay = [];
-        this.workDayIndex = -1;
+        this._workDayIndex = -1;
     }
 
-
-    setupWeek() {
-        for (let index = 0; index < 7; index++) {
-            for (let workDay in this.workDaysNumberOfDay) {
-                if (index >= this.dayTypeOfFirstDay && index + 1 - this.dayTypeOfFirstDay !== this.workDaysNumberOfDay[workDay]) {
-                    this.firstWeek.week[index] = new Day('notempty');
-                } else if (index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
-                    this.firstWeek.week[index] = new Day('work');
-                    break;
-                } else {
-                    this.firstWeek.week[index] = new Day('empty');
-                }
-            }
-        }
-        for (let index = 0; index < 7; index++) {
-            for (let workDay in this.workDaysNumberOfDay) {
-                if (7 + index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
-                    this.secondWeek.week[index] = new Day('work');
-                    break;
-                } else {
-                    this.secondWeek.week[index] = new Day('notempty');
-                }
-
-            }
-        }
-        for (let index = 0; index < 7; index++) {
-            for (let workDay in this.workDaysNumberOfDay) {
-                if (14 + index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
-                    this.thirdWeek.week[index] = new Day('work');
-                    break;
-                } else {
-                    this.thirdWeek.week[index] = new Day('notempty');
-                }
-            }
-        }
-        for (let index = 0; index < 7; index++) {
-            for (let workDay in this.workDaysNumberOfDay) {
-                if (21 + index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
-                    this.fourthWeek.week[index] = new Day('work');
-                    break;
-                } else {
-                    this.fourthWeek.week[index] = new Day('notempty');
-                }
-            }
-        }
-
-        if (this.amountOfDisplayedCells / 7 > 4) {
-            if (this.amountOfDisplayedCells / 7 > 5) {
-                for (let index = 0; index < 7; index++) {
-                    for (let workDay in this.workDaysNumberOfDay) {
-                        if (28 + index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
-                            this.fifthWeek.week[index] = new Day('work');
-                            break;
-                        } else {
-                            this.fifthWeek.week[index] = new Day('notempty');
-                        }
-                    }
-                }
-                for (let index = 0; index < 7; index++) {
-                    for (let workDay in this.workDaysNumberOfDay) {
-                        if (index <= this.dayTypeOfLastDay
-                            && 35 + index + 1 - this.dayTypeOfFirstDay !== this.workDaysNumberOfDay[workDay]) {
-                            this.sixthWeek.week[index] = new Day('notempty');
-                        } else if (35 + index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
-                            this.sixthWeek.week[index] = new Day('work');
-                            break;
-                        } else {
-                            this.sixthWeek.week[index] = new Day('empty');
-                        }
-                    }
-                }
-
-            } else {
-                for (let index = 0; index < 7; index++) {
-                    for (let workDay = 0; workDay < this.workDaysNumberOfDay.length; workDay++) {
-                        if (index > this.dayTypeOfLastDay) {
-                            this.fifthWeek.week[index] = new Day('empty');
-                        } else if (28 + index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
-                            this.fifthWeek.week[index] = new Day('work');
-                            break;
-                        } else {
-                            this.fifthWeek.week[index] = new Day('notempty');
-                        }
-                        this.weeks[4] = this.fifthWeek;
-                    }
-                }
-            }
-        }
-        this.weeks[0] = this.firstWeek;
-        this.weeks[1] = this.secondWeek;
-        this.weeks[2] = this.thirdWeek;
-        this.weeks[3] = this.fourthWeek;
-        this.weeks[4] = this.fifthWeek;
-        this.weeks[5] = this.sixthWeek;
-    }
-
-    refreshWorkDays() {
+    /**
+     * This method refreshes the list of the work days
+     */
+    public refreshWorkDays(): void {
         this.workDaysNumberOfDay[0] = -this.dayTypeOfFirstDay;
         for (let index = 0; index < this.workDays.length; index++) {
             this.workDaysNumberOfDay[index] = +this.workDays[index].split('-')[2];
         }
     }
 
-    public _getWorkDays(workMonths: any[]): string[] {
-        let workDays = [];
-        for (let i = 0; i < workMonths.length; i++) {
-
-            if (workMonths[i].dateFromMonthDate[0] === this.selectedYear && workMonths[i].dateFromMonthDate[1] === this.selectedMonth) {
-                for (let j = 0; j < workMonths[i].days.length; j++) {
-                    workDays[j] = workMonths[i].days[j].actualDay.toString();
-                }
+    /**
+     * This method collects the actual day values of the work days in the month
+     * @param workMonths the json response of the backend call contains workmonths and all their informations
+     * @returns {string[]}
+     */
+    public getWorkDaysActualDay(workMonths: Array<WorkMonth>): string[] {
+        let workDays: Array<WorkDay> = this.getWorkDays(workMonths);
+        let actualDays: string[] = [];
+        if (workDays) {
+            for (let i = 0; i < workDays.length; i++) {
+                actualDays[i] = workDays[i].actualDay.toString();
             }
         }
-        return workDays;
+        return actualDays;
     }
 
+    /**
+     *This method sorts the actualDay strings in one month
+     * @returns {string[]}
+     */
     public getSortedDays(): string[] {
-        let dateAndDay = [];
-        let workDays = [];
+        let dateAndDay: any[] = [];
+        let workDays: string[] = [];
         for (let index = 0; index < this.workDays.length; index++) {
             dateAndDay[index] = [];
             dateAndDay[index][1] = this.workDays[index];
             dateAndDay[index][0] = +this.workDays[index].split('-')[2];
         }
-        dateAndDay.sort(this.sortFunction);
+        dateAndDay.sort(TlogService.sortFunction);
         for (let index = 0; index < this.workDays.length; index++) {
             workDays[index] = dateAndDay[index][1];
         }
         return workDays;
     }
 
-    private _getTasks(workMonths: any[]): any[] {
-        let tasks = [];
-        for (let i = 0; i < workMonths.length; i++) {
-            if (workMonths[i].dateFromMonthDate[0] === this.selectedYear && workMonths[i].dateFromMonthDate[1] === this.selectedMonth) {
-                for (let j = 0; j < workMonths[i].days.length; j++) {
-                    if (workMonths[i].days[j].actualDay.toString() === this.selectedDayOnTaskList) {
-                        for (let k = 0; k < workMonths[i].days[j].tasks.length; k++) {
-                            tasks[k] = [];
-                            tasks[k][0] = workMonths[i].days[j].tasks[k].taskId.toString();
-                            tasks[k][1] = workMonths[i].days[j].tasks[k].comment.toString();
-                            tasks[k][2] = workMonths[i].days[j].tasks[k].startTime.toString();
-                            tasks[k][3] = workMonths[i].days[j].tasks[k].endTime.toString();
-                            tasks[k][4] = +workMonths[i].days[j].tasks[k].minPerTask.toString();
-                        }
+    /**
+     * This method calculates all the data to display the months and tasklists properly
+     */
+    public getAllDisplayedData(): void {
+        this.fetchWorkMonthsFromBackend().subscribe(
+            (workMonths) => {
+                this.loggedIn = true;
+                this.resetValues();
+                this.setupValues();
+                this.workDays = this.getWorkDaysActualDay(workMonths);
+                this._sortedWorkDays = this.getSortedDays();
+                if (this._selectedDayOnTaskList === '') {
+                    this._selectedDayOnTaskList = this._sortedWorkDays[0];
+                }
+                this.monthlyStat = this.getMonthlyStatistics(workMonths);
+                this.refreshWorkDays();
+                this.setupWeeks();
+                this.setupDailyStatAndTasksFromMonths(workMonths);
+            },
+            (err) => {
+                if (err.status === 401) {
+                    this.router.navigate(['/login']);
+                }
+            }
+        );
+    }
+
+    /**
+     * This method refreshes the JWT with a backend call
+     */
+    public refreshToken(): void {
+        this.refreshTokenFromBackend().subscribe(
+            (data) => {
+                this.jwtToken = data.headers.get('Authorization').split(' ')[1];
+                let header: Headers = new Headers({'Content-Type': 'application/json', 'Authorization': data.headers.get('Authorization')});
+                this.headers = header;
+                localStorage.removeItem('token');
+                localStorage.setItem('token', this.jwtToken);
+            }
+        );
+    }
+
+    /**
+     * This backend call fetches all the informations about the given month
+     * @param year
+     * @param month
+     * @returns {Observable<R>}
+     */
+    public fetchWorkDaysInMonthFromBackend(year: number, month: number): Observable<Array<WorkDay>> {
+        let header: Headers = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
+        this.headers = header;
+        return this.http.get(this.backendUrl + '/workmonths/' + year + '/' + month, {headers: this._headers} )
+            .map((res) => <Array<WorkDay>> res.json());
+    }
+
+    /**
+     * This backend call fetches all the informations about a given user
+     * @returns {Observable<R>}
+     */
+    public fetchWorkMonthsFromBackend(): Observable<Array<WorkMonth>> {
+        let header: Headers = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
+        this.headers = header;
+        return this.http.get(this.backendUrl + '/workmonths', {headers: this._headers}).map((res) => <Array<WorkMonth>> res.json());
+    }
+
+    /**
+     * This backend call sends a request to the backend to login the given user
+     * @param name
+     * @param password
+     * @returns {Observable<R>}
+     */
+    public loginUserInBackend(name: string, password: string): Observable<Response> {
+        let userBean: UserRB = new UserRB(name, password);
+        let user: string = JSON.stringify(userBean);
+        return this.http.post(this.backendUrl + '/login', user, {headers: this._headers})
+            .map((res: Response) => res);
+    }
+
+    /**
+     * This backend call sends a request to the backend to register the given user
+     * @param name
+     * @param password
+     * @returns {Observable<R>}
+     */
+    public registerUserInBackend(name: string, password: string): Observable<Response> {
+        let header: Headers = new Headers({'Content-Type': 'application/json'});
+        let userBean: UserRB = new UserRB(name, password);
+        let user: string = JSON.stringify(userBean);
+        return this.http.post(this.backendUrl + '/register', user, {headers: header})
+            .map((res: Response) => res.json());
+    }
+
+    /**
+     * This method creates a new work day on a weekday
+     * @param requiredHours
+     * @returns {Observable<any>}
+     */
+    public addDayWeekdayOnBackend(requiredHours: number): Observable<Response> {
+        return this.addDayHelper(requiredHours, '/workmonths/workdays');
+    }
+
+    /**
+     * This method creates a new work day ona weekend day
+     * @param requiredHours
+     * @returns {Observable<any>}
+     */
+    public addDayWeekendOnBackend(requiredHours: number): Observable<Response> {
+        return this.addDayHelper(requiredHours, '/workmonths/workdays/weekend');
+    }
+
+    /**
+     * This method creates a new task with the given informations
+     * @param taskId
+     * @param comment
+     * @param startTime
+     */
+    public addNewBasicTaskWithOptionalCommentOnBackend(taskId: string, startTime: string, comment?: string): void {
+        this.getYearMonthAndDayFromSelectedDayOnTaskList();
+        let taskBean: StartTaskRB = new StartTaskRB(
+            this.yearOfSelectedDayOnTaskList,
+            this.monthOfSelectedDayOnTaskList,
+            this.dayOfSelectedDayOnTaskList,
+            taskId,
+            comment || '',
+            startTime
+        );
+        let task: string = JSON.stringify(taskBean);
+        this.http.post(this.backendUrl + '/workmonths/workdays/tasks/start', task, {headers: this._headers})
+            .map((res: Response) => res.json())
+            .subscribe(
+                (data) => {
+                },
+                (err) => {
+                    this.addTaskSubscribe(err.status);
+                }
+            );
+    }
+
+    /**
+     * This method creates a new task with the given informations
+     * @param taskId
+     * @param comment
+     * @param startTime
+     * @param endTime
+     */
+    public addNewFinishedTaskWithOptionalCommentOnBackend(taskId: string, startTime: string, endTime: string, comment?: string): void {
+        this.getYearMonthAndDayFromSelectedDayOnTaskList();
+        let taskBean: ModifyTaskRB = new ModifyTaskRB(
+            this.yearOfSelectedDayOnTaskList,
+            this.monthOfSelectedDayOnTaskList,
+            this.dayOfSelectedDayOnTaskList,
+            taskId,
+            startTime,
+            taskId,
+            comment || '',
+            startTime,
+            endTime
+        );
+        let task: string = JSON.stringify(taskBean);
+        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/modify', task, {headers: this._headers})
+            .map((res: Response) => res.json())
+            .subscribe(
+                (data) => {
+                },
+                (err) => {
+                    this.addTaskSubscribe(err.status);
+                }
+            );
+    }
+
+    /**
+     * This method will modify a selected task with the given values
+     * @param newTaskId
+     * @param newComment
+     * @param newStartTime
+     * @param newEndTime
+     * @returns {Observable<R>}
+     */
+    public modifyTaskOnBackend(newTaskId: string, newComment: string, newStartTime: string, newEndTime: string): Observable<any> {
+        this.getYearMonthAndDayFromSelectedDayOnTaskList();
+        let taskBean: ModifyTaskRB = new ModifyTaskRB(
+            this.yearOfSelectedDayOnTaskList,
+            this.monthOfSelectedDayOnTaskList,
+            this.dayOfSelectedDayOnTaskList,
+            this._editTaskId,
+            this._editStartTime,
+            newTaskId,
+            newComment,
+            newStartTime,
+            newEndTime
+        );
+        let task: string = JSON.stringify(taskBean);
+        return this.http.put(this.backendUrl + '/workmonths/workdays/tasks/modify', task, {headers: this._headers})
+            .map((res: Response) => res.json());
+    }
+
+    /**
+     * This method will delete a selected task
+     */
+    public deleteTaskOnBackend(): void {
+        this.getYearMonthAndDayFromSelectedDayOnTaskList();
+        let taskBean: DeleteTaskRB = new DeleteTaskRB(
+            this.yearOfSelectedDayOnTaskList,
+            this.monthOfSelectedDayOnTaskList,
+            this.dayOfSelectedDayOnTaskList,
+            this._deleteTaskId,
+            this._deleteStartTime
+        );
+        let task: string = JSON.stringify(taskBean);
+        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/delete', task, {headers: this._headers})
+            .map((res: Response) => res.json())
+            .subscribe(
+                (data) => {
+                },
+                (err) => {
+                    if (err.status === undefined) {
+                        this.getAllDisplayedData();
                     }
+                }
+            );
+    }
+
+    private setupOneWeek(weekIndex: number): void {
+        for (let index = 0; index < 7; index++) {
+            for (let workDay in this.workDaysNumberOfDay) {
+                if (index < this.dayTypeOfFirstDay && weekIndex === 0) {
+                    this._weeks[weekIndex].week[index] = new Day('empty');
+                } else if (
+                    index > this.dayTypeOfLastDay &&
+                    ((this.amountOfDisplayedCells / 7 > 5 && weekIndex === 5) || (this.amountOfDisplayedCells / 7 <= 5 && weekIndex === 4))
+                ) {
+                    this._weeks[weekIndex].week[index] = new Day('empty');
+                } else if (7 * weekIndex + index + 1 - this.dayTypeOfFirstDay === this.workDaysNumberOfDay[workDay]) {
+                    this._weeks[weekIndex].week[index] = new Day('work');
+                    break;
+                } else if (weekIndex < 5 || (this.amountOfDisplayedCells / 7 > 5 && weekIndex === 5)) {
+                    this._weeks[weekIndex].week[index] = new Day('notempty');
                 }
             }
         }
-        return tasks;
     }
 
-    _getMonthlyStatistics(workMonths: any[]): number[] {
-        let statistics = [];
+    private getMonthlyStatistics(workMonths: Array<WorkMonth>): number[] {
+        let statistics: number[] = [0,0];
         for (let index = 0; index < workMonths.length; index++) {
-            if (workMonths[index].monthDate === this.monthDisplay) {
+            if (workMonths[index].monthDate === this._monthDisplay) {
                 statistics[0] = +workMonths[index].extraMinPerMonth.toString();
                 statistics[1] = +workMonths[index].sumPerMonth.toString();
             }
@@ -264,433 +546,82 @@ export class TlogService {
         return statistics;
     }
 
-    getDailyStatistics(workMonths: any[]): number[] {
-        let dailyStat = [];
+    private getWorkDays(workMonths: Array<WorkMonth>): Array<WorkDay> {
+        let workDays: Array<WorkDay>;
         for (let i = 0; i < workMonths.length; i++) {
-            if (workMonths[i].dateFromMonthDate[0] === this.selectedYear && workMonths[i].dateFromMonthDate[1] === this.selectedMonth) {
-                for (let j = 0; j < workMonths[i].days.length; j++) {
-                    if (workMonths[i].days[j].actualDay.toString() === this.selectedDayOnTaskList) {
-                        dailyStat[0] = workMonths[i].days[j].extraMinPerDay;
-                        dailyStat[1] = workMonths[i].days[j].sumPerDay;
-                        dailyStat[2] = workMonths[i].days[j].requiredMinPerDay;
-                    }
-                }
+            if (
+                +workMonths[i].monthDate.split('-')[0] === this._selectedYear &&
+                +workMonths[i].monthDate.split('-')[1] === this._selectedMonth
+            ) {
+                workDays = workMonths[i].days;
             }
         }
-        return dailyStat;
-
+        return workDays;
     }
 
-    getAllDisplayedData(): void {
-        this._getWorkMonths().subscribe(
-            (workMonths) => {
-                this.setLoggedIn(true);
-                this.clearLists();
-                this.setupValues();
-                this.workDays = this._getWorkDays(workMonths);
-                this.sortedWorkDays = this.getSortedDays();
-                if (this.selectedDayOnTaskList === '') {
-                    this.selectedDayOnTaskList = this.sortedWorkDays[0];
-                }
-                this.monthlyStat = this._getMonthlyStatistics(workMonths);
-                this.refreshWorkDays();
-                this.setupWeek();
-                this.dailyStat = this.getDailyStatistics(workMonths);
-                this.tasks = this._getTasks(workMonths);
-            },
-            (err) => {
-                if (err.status === 401) {
-                    this.router.navigate(['/login']);
-                }
-
+    private setupDailyStatAndTasksFromMonths(workMonths: Array<WorkMonth>): void {
+        let workDays: Array<WorkDay> = this.getWorkDays(workMonths);
+        for (let j = 0; j < workDays.length; j++) {
+            if (workDays[j].actualDay.toString() === this._selectedDayOnTaskList) {
+                this._dailyStat[0] = workDays[j].extraMinPerDay;
+                this._dailyStat[1] = workDays[j].sumPerDay;
+                this._dailyStat[2] = workDays[j].requiredMinPerDay;
+                this._tasks = workDays[j].tasks;
             }
-        );
+        }
     }
 
-    refreshToken() {
-        this._refreshToken().subscribe(
-            (data) => {
-                this.setJwtToken(data.headers.get('Authorization').split(' ')[1]);
-                let header = new Headers({'Content-Type': 'application/json', 'Authorization': data.headers.get('Authorization')});
-                this.setHeaders(header);
-                localStorage.removeItem('token');
-                localStorage.setItem('token', this.getJwtToken());
+    private setupWeeks(): void {
+        for (let weekIndex = 0; weekIndex < 4; weekIndex++) {
+            this.setupOneWeek(weekIndex);
+        }
+        if (this.amountOfDisplayedCells / 7 > 4) {
+            for (let weekIndex = 4; weekIndex < 6; weekIndex ++) {
+                this.setupOneWeek(weekIndex);
             }
-        );
+        }
     }
 
-
-    public _getWorkDaysInMonth(year: number, month: number): Observable<any> {
-        let header = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
-        this.setHeaders(header);
-        return this.http.get(this.backendUrl + '/workmonths/' + year + '/' + month, {headers: this.headers} )
-            .map((res: any) => res.json());
-    }
-
-    public _getWorkMonths(): Observable<any[]> {
-        let header = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')});
-        this.setHeaders(header);
-        return this.http.get(this.backendUrl + '/workmonths', {headers: this.headers}).map((res) => <any[]> res.json());
-    }
-
-    public loginUser(name: string, password: string): Observable<any> {
-        let userBean = new UserRB(name, password);
-        let user = JSON.stringify(userBean);
-        return this.http.post(this.backendUrl + '/login', user, {headers: this.headers})
-            .map((res: any) => res);
-    }
-
-    public _refreshToken(): Observable<any> {
-        return this.http.get(this.backendUrl + '/refresh-token', {headers: this.headers})
-            .map((res: any) => res);
-    }
-
-    public registerUser(name: string, password: string): Observable<any> {
-        let header = new Headers({'Content-Type': 'application/json'});
-        let userBean = new UserRB(name, password);
-        let user = JSON.stringify(userBean);
-        return this.http.post(this.backendUrl + '/register', user, {headers: header})
-            .map((res: any) => res.json());
-    }
-
-    public addDayWeekday(requiredHours: number): Observable<any> {
-        let workDayBean = new WorkDayRB(this.selectedYear, this.selectedMonth, this.addedDay, requiredHours);
-        let workDay = JSON.stringify(workDayBean);
-        return this.http.post(this.backendUrl + '/workmonths/workdays', workDay, {headers: this.headers})
-            .map((res: any) => res.json());
-    }
-
-    public addDayWeekend(requiredHours: number): Observable<any> {
-        let workDayBean = new WorkDayRB(this.selectedYear, this.selectedMonth, this.addedDay, requiredHours);
-        let workDay = JSON.stringify(workDayBean);
-        return this.http.post(this.backendUrl + '/workmonths/workdays/weekend', workDay, {headers: this.headers})
-            .map((res: any) => res.json());
-    }
-
-    public addNewBasicTask(taskId: string, startTime: string): void {
-        let year = +this.selectedDayOnTaskList.split('-')[0];
-        let month = +this.selectedDayOnTaskList.split('-')[1];
-        let day = +this.selectedDayOnTaskList.split('-')[2];
-        let taskBean = new StartTaskRB(year, month, day, taskId, '', startTime);
-        let task = JSON.stringify(taskBean);
-        this.http.post(this.backendUrl + '/workmonths/workdays/tasks/start', task, {headers: this.headers})
-            .map((res: Response) => res.json())
-            .subscribe(
-                (data) => {
-                },
-                (err) => {
-                    if (err.status === 417) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task should begin earlier then it ends!'
-                        });
-                    }
-                    if (err.status === 406) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
-                        });
-                    }
-                    if (err.status === 416) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The duration of the task should be multiple of the quarter hours!'
-                        });
-                    }
-                    if (err.status === 409) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
-                        });
-                    }
-                    if (err.status === undefined) {
-                        this.getAllDisplayedData();
-                    }
-                }
-            );
-    }
-
-    public addNewTaskWithComment(taskId: string, comment: string, startTime: string): void {
-        let year = +this.selectedDayOnTaskList.split('-')[0];
-        let month = +this.selectedDayOnTaskList.split('-')[1];
-        let day = +this.selectedDayOnTaskList.split('-')[2];
-        let taskBean = new StartTaskRB(year, month, day, taskId, comment, startTime);
-        let task = JSON.stringify(taskBean);
-        this.http.post(this.backendUrl + '/workmonths/workdays/tasks/start', task, {headers: this.headers})
-            .map((res: Response) => res.json())
-            .subscribe(
-                (data) => {
-                },
-                (err) => {
-                    if (err.status === 417) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task should begin earlier then it ends!'
-                        });
-                    }
-                    if (err.status === 406) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
-                        });
-                    }
-                    if (err.status === 416) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The duration of the task should be multiple of the quarter hours!'
-                        });
-                    }
-                    if (err.status === 409) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
-                        });
-                    }
-                    if (err.status === undefined) {
-                        this.getAllDisplayedData();
-                    }
-                }
-            );
-    }
-
-
-    public addNewFinishedTask(taskId: string, startTime: string, endTime: string): void {
-        let year = +this.selectedDayOnTaskList.split('-')[0];
-        let month = +this.selectedDayOnTaskList.split('-')[1];
-        let day = +this.selectedDayOnTaskList.split('-')[2];
-        let taskBean = new FinishingTaskRB(year, month, day, taskId, startTime, endTime);
-        let task = JSON.stringify(taskBean);
-        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/finish', task, {headers: this.headers})
-            .map((res: Response) => res.json())
-            .subscribe(
-                (data) => {
-                },
-                (err) => {
-                    if (err.status === 417) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task should begin earlier then it ends!'
-                        });
-                    }
-                    if (err.status === 406) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
-                        });
-                    }
-                    if (err.status === 416) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The duration of the task should be multiple of the quarter hours!'
-                        });
-                    }
-                    if (err.status === 409) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
-                        });
-                    }
-                    if (err.status === undefined) {
-                        this.getAllDisplayedData();
-                    }
-                }
-            );
-    }
-
-    public addNewTask(taskId: string, comment: string, startTime: string, endTime: string): void {
-        let year = +this.selectedDayOnTaskList.split('-')[0];
-        let month = +this.selectedDayOnTaskList.split('-')[1];
-        let day = +this.selectedDayOnTaskList.split('-')[2];
-        let taskBean = new ModifyTaskRB(year, month, day, taskId, startTime, taskId, comment, startTime, endTime);
-        let task = JSON.stringify(taskBean);
-        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/modify', task, {headers: this.headers})
-            .map((res: Response) => res.json())
-            .subscribe(
-                (data) => {
-                },
-                (err) => {
-                    if (err.status === 417) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task should begin earlier then it ends!'
-                        });
-                    }
-                    if (err.status === 406) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'This task id is not valid, valid id for erxample: 7856, LT-9635, ...'
-                        });
-                    }
-                    if (err.status === 416) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The duration of the task should be multiple of the quarter hours!'
-                        });
-                    }
-                    if (err.status === 409) {
-                        bootbox.alert({
-                            title: 'Warning',
-                            message: 'The task has a common interval with an existing task, the intervals should be separated!'
-                        });
-                    }
-                    if (err.status === undefined) {
-                        this.getAllDisplayedData();
-                    }
-                }
-            );
-    }
-
-    public modifyTask(newTaskId: string, newComment: string, newStartTime: string, newEndTime: string): Observable<any> {
-        let year = +this.selectedDayOnTaskList.split('-')[0];
-        let month = +this.selectedDayOnTaskList.split('-')[1];
-        let day = +this.selectedDayOnTaskList.split('-')[2];
-        let taskBean = new ModifyTaskRB(year, month, day,
-            this.editTaskId, this.editStartTime, newTaskId, newComment, newStartTime, newEndTime);
-        let task = JSON.stringify(taskBean);
-        return this.http.put(this.backendUrl + '/workmonths/workdays/tasks/modify', task, {headers: this.headers})
+    private addDayHelper(requiredHours: number, url: string): Observable<Response> {
+        let workDayBean: WorkDayRB = new WorkDayRB(this._selectedYear, this._selectedMonth, this._addedDay, requiredHours);
+        let workDay: string = JSON.stringify(workDayBean);
+        return this.http.post(this.backendUrl + url, workDay, {headers: this._headers})
             .map((res: Response) => res.json());
     }
 
-    public deleteTask() {
-        let year = +this.selectedDayOnTaskList.split('-')[0];
-        let month = +this.selectedDayOnTaskList.split('-')[1];
-        let day = +this.selectedDayOnTaskList.split('-')[2];
-        let taskBean = new DeleteTaskRB(year, month, day, this.deleteTaskId, this.deleteStartTime);
-        let task = JSON.stringify(taskBean);
-        this.http.put(this.backendUrl + '/workmonths/workdays/tasks/delete', task, {headers: this.headers})
-            .map((res: Response) => res.json())
-            .subscribe(
-                (data) => {
-                },
-                (err) => {
-                    if (err.status === undefined) {
-                        this.getAllDisplayedData();
-                    }
-                }
-            );
+    private addTaskSubscribe(errorStatus: number) {
+        if (errorStatus === 417) {
+            this.sendAlert('The task should begin earlier then it ends!');
+        }
+        if (errorStatus === 406) {
+            this.sendAlert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
+        }
+        if (errorStatus === 416) {
+            this.sendAlert('The duration of the task should be multiple of the quarter hours!');
+        }
+        if (errorStatus === 409) {
+            this.sendAlert('The task has a common interval with an existing task, the intervals should be separated!');
+        }
+        if (errorStatus === 411) {
+            this.sendAlert('The task id and the start time are required fields, do not leave them empty!');
+        }
+        if (errorStatus === undefined) {
+            this.getAllDisplayedData();
+        }
     }
 
-    public getAddedDay(day: number) {
-        this.addedDay = day;
+    private getYearMonthAndDayFromSelectedDayOnTaskList(): void {
+        this.yearOfSelectedDayOnTaskList = +this._selectedDayOnTaskList.split('-')[0];
+        this.monthOfSelectedDayOnTaskList = +this._selectedDayOnTaskList.split('-')[1];
+        this.dayOfSelectedDayOnTaskList = +this._selectedDayOnTaskList.split('-')[2];
     }
 
-    public getWorkDayIndex(): number {
-        return this.workDayIndex;
+    private refreshTokenFromBackend(): Observable<Response> {
+        return this.http.get(this.backendUrl + '/refresh-token', {headers: this._headers})
+            .map((res: Response) => res);
     }
 
-    public setWorkDayIndex(newWorkDayIndex: number) {
-        this.workDayIndex = newWorkDayIndex;
-    }
-
-    public setSelectedDayOnTaskList(newSelectedValue: string) {
-        this.selectedDayOnTaskList = newSelectedValue;
-    }
-
-    public setSelectedDate(newValue: Date) {
-        this.selectedDate = newValue;
-    }
-
-    public setEditTaskId(newValue: string) {
-        this.editTaskId = newValue;
-    }
-
-    public setEditComment(newValue: string) {
-        this.editComment = newValue;
-    }
-
-    public setEditStartTime(newValue: string) {
-        this.editStartTime = newValue;
-    }
-
-    public setEditEndTime(newValue: string) {
-        this.editEndTime = newValue;
-    }
-
-    public setDeleteTaskId(newValue: string) {
-        this.deleteTaskId = newValue;
-    }
-
-    public setDeleteStartTime(newValue: string) {
-        this.deleteStartTime = newValue;
-    }
-
-    public getDailyStat(): number[] {
-        return this.dailyStat;
-    }
-
-    public getSelectedDayOnTaskList(): string {
-        return this.selectedDayOnTaskList;
-    }
-
-    public getTasks(): any[] {
-        return this.tasks;
-    }
-
-    public getMonthlyStat(): number[] {
-        return this.monthlyStat;
-    }
-
-    public getMonthDisplay(): string {
-        return this.monthDisplay;
-    }
-
-    public getSelectedDate(): Date {
-        return this.selectedDate;
-    }
-
-    public getSelectedYear(): number {
-        return this.selectedYear;
-    }
-
-    public getSelectedMonth(): number {
-        return this.selectedMonth;
-    }
-
-    public getDayTypeOfFirstDay(): number {
-        return this.dayTypeOfFirstDay;
-    }
-
-    public  getWeeks(): Week[] {
-        return this.weeks;
-    }
-
-    public getEditTaskId(): string {
-        return this.editTaskId;
-    }
-
-    public getEditComment(): string {
-        return this.editComment;
-    }
-
-    public getEditStartTime(): string {
-        return this.editStartTime;
-    }
-
-    public getEditEndTime(): string {
-        return this.editEndTime;
-    }
-
-    public getJwtToken(): string {
-        return this.jwtToken;
-    }
-
-    public setJwtToken(newValue: string) {
-        this.jwtToken = newValue;
-    }
-
-    public setHeaders(headers: Headers) {
-        this.headers = headers;
-    }
-
-    public getLoggedIn(): boolean {
-        return this.loggedIn;
-    }
-
-    public setLoggedIn(newValue: boolean) {
-        this.loggedIn = newValue;
-    }
-
-    public getSortedWorkDays(): string[] {
-        return this.sortedWorkDays;
+    public getDayValue(weekindex: number, dayindex: number): number {
+        return weekindex * 7 + dayindex + 1 - this.dayTypeOfFirstDay;
     }
 }
