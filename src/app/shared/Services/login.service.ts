@@ -41,7 +41,7 @@ export class LoginService {
             },
             (err) => {
                 if (err.status === 401) {
-                    this.tlogService.sendAlert('Incorrect username or password');
+                    this.tlogService.sendAlert('<p i18n="name or password alert">Incorrect username or password</p>');
                 }
             }
         );
@@ -60,12 +60,12 @@ export class LoginService {
                 (err) => {
                     console.log(err);
                     if (err.status === 409) {
-                        this.tlogService.sendAlert('This username already exists, please try an other one!');
+                        this.tlogService.sendAlert('<p i18n="name exists alert">This username already exists, please try an other one!</p>');
                     }
                 }
             );
         } else {
-            this.tlogService.sendAlert('You have to type in a name and a password');
+            this.tlogService.sendAlert('<p i18n="empty name or psw alert">You have to type in a name and a password</p>');
         }
     }
 }

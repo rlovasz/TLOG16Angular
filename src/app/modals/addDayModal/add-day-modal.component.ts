@@ -27,11 +27,11 @@ export class AddDayModalComponent {
 
     private errorSubscribe(errorStatus: number): void {
         if (errorStatus === 403) {
-            this.tlogService.sendAlert('You can not have a work day in the future!');
+            this.tlogService.sendAlert('<p i18n="future alert">You can not have a work day in the future!</p>');
             this.resetVal();
         }
         if (errorStatus === 449) {
-            this.tlogService.sendAlert('You can not have negative working hours!');
+            this.tlogService.sendAlert('<p i18n="negative hours alert">You can not have negative working hours!</p>');
             this.resetVal();
         }
         if (errorStatus === undefined) {
@@ -58,16 +58,16 @@ export class AddDayModalComponent {
     private handleWeekendError(errorStatus: number, requiredHours: number) {
         if (errorStatus === 428) {
             bootbox.confirm({
-                title: 'Warning',
+                title: '<p i18n>Warning</p>',
                 buttons: {
                     confirm: {
-                        label: 'Yes'
+                        label: '<p i18n>Yes</p>'
                     },
                     cancel: {
-                        label: 'No'
+                        label: '<p i18n>No</p>'
                     }
                 },
-                message: 'Are you sure you have a working day on weekend?',
+                message: '<p i18n="weekend-confirm">Are you sure you have a working day on weekend?</p>',
                 callback: (result) => {
                     this.addWeekendDayCallback(result, requiredHours);
                 }

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TlogService} from '../shared/Services/tlog.service';
 import {Observable} from 'rxjs';
-import {WorkDay} from "../shared/Classes/Classes";
-import {Router} from "@angular/router";
 
 @Component({
     selector: 'my-calendar',

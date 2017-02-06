@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" (click)="resetVal()">&times;</button>
-                <p class="modal-title">Set the task informations</p>
+                <p class="modal-title" i18n="new task modal title">Set the task informations</p>
             </div>
             <div class="modal-body">
                 <form action="listTasks.html">
@@ -12,24 +12,28 @@
                            name="taskId"
                            [(ngModel)]="task_id"
                            placeholder="Task id"
+                           i18n-placeholder="task id placeholder"
                     >
                     <input #comment
                            type="text"
                            name="comment"
                            [(ngModel)]="comment_clear"
                            placeholder="Comment"
+                           i18n-placeholder="comment placeholder"
                     >
                     <input #startTime
                            type="time"
                            name="startTime"
                            [(ngModel)]="start_time"
                            placeholder="Start time"
+                           i18n-placeholder="start time placeholder"
                     >
                     <input #endTime
                            type="time"
                            name="endTime"
                            [(ngModel)]="end_time"
                            placeholder="End time"
+                           i18n-placeholder="end time placeholder"
                     >
                 </form>
             </div>

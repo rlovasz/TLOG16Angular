@@ -8,7 +8,9 @@ import {
     StartTaskRB,
     ModifyTaskRB,
     DeleteTaskRB,
-    UserRB, WorkDay, WorkMonth
+    UserRB,
+    WorkDay,
+    WorkMonth
 } from '../Classes/Classes';
 import {Headers, Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
@@ -210,7 +212,7 @@ export class TlogService {
      */
     public sendAlert(message: string) {
         bootbox.alert({
-            title: 'Warning',
+            title: '<p i18n>Warning</p>',
             message: message
         });
     }
@@ -591,19 +593,19 @@ export class TlogService {
 
     private addTaskSubscribe(errorStatus: number) {
         if (errorStatus === 417) {
-            this.sendAlert('The task should begin earlier then it ends!');
+            this.sendAlert('<p i18n="not expected time order">The task should begin earlier then it ends!</p>');
         }
         if (errorStatus === 406) {
-            this.sendAlert('This task id is not valid, valid id for erxample: 7856, LT-9635, ...');
+            this.sendAlert('<p i18n="not valid task id alert">This task id is not valid, valid id for erxample: 7856, LT-9635, ...</p>');
         }
         if (errorStatus === 416) {
-            this.sendAlert('The duration of the task should be multiple of the quarter hours!');
+            this.sendAlert('<p i18n="quarter hours alert">The duration of the task should be multiple of the quarter hours!</p>');
         }
         if (errorStatus === 409) {
-            this.sendAlert('The task has a common interval with an existing task, the intervals should be separated!');
+            this.sendAlert('<p i18n="not separated alert">The task has a common interval with an existing task, the intervals should be separated!</p>');
         }
         if (errorStatus === 411) {
-            this.sendAlert('The task id and the start time are required fields, do not leave them empty!');
+            this.sendAlert('<p i18n="task id and start time are required">The task id and the start time are required fields, do not leave them empty!</p>');
         }
         if (errorStatus === undefined) {
             this.getAllDisplayedData();

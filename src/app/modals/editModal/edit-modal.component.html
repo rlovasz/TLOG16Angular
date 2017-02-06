@@ -3,13 +3,37 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <p class="modal-title">Modifications of task</p>
+                <p class="modal-title" i18n="edit modal title">Modifications of task</p>
             </div>
             <div class="modal-body">
-                <input #newTaskId type="text" name="taskId" value={{tlogService.editTaskId}}>
-                <input #newComment type="text" name="comment" value={{tlogService.editComment}}>
-                <input #newStartTime type="time" name="startTime" value={{tlogService.editStartTime}}>
-                <input #newEndTime type="time" name="endTime" value={{tlogService.editEndTime}}>
+                <input #newTaskId
+                       type="text"
+                       name="taskId"
+                       value={{tlogService.editTaskId}}
+                       placeholder="Task id"
+                       i18n-placeholder="task id placeholder"
+                >
+                <input #newComment
+                       type="text"
+                       name="comment"
+                       value={{tlogService.editComment}}
+                       placeholder="Comment"
+                       i18n-placeholder="comment placeholder"
+                >
+                <input #newStartTime
+                       type="time"
+                       name="startTime"
+                       value={{tlogService.editStartTime}}
+                       placeholder="Start time"
+                       i18n-placeholder="start time placeholder"
+                >
+                <input #newEndTime
+                       type="time"
+                       name="endTime"
+                       value={{tlogService.editEndTime}}
+                       placeholder="End time"
+                       i18n-placeholder="end time placeholder"
+                >
             </div>
             <div class="modal-footer">
                 <button

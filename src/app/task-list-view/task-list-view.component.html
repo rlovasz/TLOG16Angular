@@ -3,7 +3,7 @@
         <daily-stat></daily-stat>
         <div class="col-md-1" id="changeDay">
             <div class="form-group">
-                <label for="selectDay">Select day:</label>
+                <label for="selectDay" i18n="day selection in dropdown">Select day:</label>
                 <select #selectDay
                         class="form-control input-sm"
                         id="selectDay"
@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <h2>List of tasks</h2>
+    <h2 i18n="task list table's title">List of tasks</h2>
     <br>
     <task-list></task-list>
     <div class="row">
@@ -25,6 +25,7 @@
                     data-toggle="modal"
                     data-target="#newTaskModal"
                     id="addNewTask"
+                    i18n="add new task button text"
             >Add new task
             </button>
         </div>

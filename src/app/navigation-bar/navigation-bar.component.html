@@ -6,13 +6,13 @@
             </h1>
             <ul class="nav navbar-nav" *ngIf="tlogService.loggedIn">
                 <li class="navbar-inverse">
-                    <a routerLink="/calendar">Calendar view</a>
+                    <a routerLink="/calendar" i18n="calendar view in navigation bar">Calendar view</a>
                 </li>
                 <li class="navbar-inverse">
-                    <a (click)="setNewSelectedMonth()" routerLink="/tasklist">Tasks list-view</a>
+                    <a (click)="setNewSelectedMonth()" routerLink="/tasklist" i18n="tasks list view in navigation bar">Tasks list-view</a>
                 </li>
                 <li class="navbar-inverse navbar-right">
-                    <a (click)="loginService.logout()" routerLink="/login">Log out</a>
+                    <a (click)="loginService.logout()" routerLink="/login" i18n="log out in navigation bar">Log out</a>
                 </li>
             </ul>
         </div>

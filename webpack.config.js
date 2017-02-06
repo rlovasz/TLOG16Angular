@@ -213,7 +213,6 @@ module.exports = function makeWebpackConfig() {
   if (!isTest && !isTestWatch) {
     config.plugins.push(
       new ForkCheckerPlugin(),
-
       // Generate common chunks if necessary
       // Reference: https://webpack.github.io/docs/code-splitting.html
       // Reference: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin

@@ -9,13 +9,15 @@ import {CalendarComponent} from "./calendar.component";
 import {BrowserModule} from "@angular/platform-browser";
 import {ModalsModule} from "../modals/modals.module";
 import {TlogService} from "../shared/Services/tlog.service";
+import {CommonModule} from "@angular/common";
 
 
 @NgModule({
     imports: [
         FormsModule,
         BrowserModule,
-        ModalsModule
+        ModalsModule,
+        CommonModule
     ],
     declarations: [
         PagerComponent,

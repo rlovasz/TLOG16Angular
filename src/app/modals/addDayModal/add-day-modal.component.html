@@ -3,11 +3,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" (click)='resetVal()'>&times;</button>
-                <p class="modal-title">Set required working hours</p>
+                <p class="modal-title" i18n="add day modal title">Set required working hours</p>
             </div>
             <div class="modal-body">
                 <form id="setHour">
-                    <label>Set hours:</label>
+                    <label i18n="set required working hours">Set hours:</label>
                     <br>
                     <input #requiredMinPerDay
                            (keyup)="0"
@@ -17,6 +17,7 @@
                            autofocus="autofocus"
                            autocomplete="off"
                            [(ngModel)]="requiredMins"
+                           i18n-placeholder="required hours placeholder"
                     >
                     <br>
                 </form>

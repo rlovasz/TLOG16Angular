@@ -1,5 +1,6 @@
 <p class="dayOfMonth">{{tlogService.getDayValue(weekindex, dayindex)}}</p>
 <p [ngClass]="{'positive-extra': isExtraMinutesPositive(), 'negative-extra':!isExtraMinutesPositive()}"
+   i18n="Extra minutes"
 >Extra minutes: {{minutes[workDayIndex]}}</p>
 <br><br>
 <a (click)="gotToTaskListView()" id="{{tlogService.selectedYear}}-{{tlogService.selectedMonth}}-{{tlogService.getDayValue(weekindex, dayindex)}} ">
