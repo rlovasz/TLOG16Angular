@@ -31,7 +31,7 @@ export class PagerComponent {
 
     private paging(pagedMonths: number): void {
         let selectedDate: Date = this.tlogService.selectedDate;
-        selectedDate = new Date(selectedDate.getFullYear(),selectedDate.getMonth()+pagedMonths,1);
+        selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + pagedMonths, 1);
         this.tlogService.selectedDate = selectedDate;
         this.tlogService.getAllDisplayedData();
     }

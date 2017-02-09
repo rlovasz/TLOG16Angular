@@ -29,19 +29,33 @@ export class EditModalComponent {
             },
             (err) => {
                 if (err.status === 417) {
-                    this.tlogService.sendAlert('<p i18n="not expected time order">The task should begin earlier then it ends!</p>');
+                    this.tlogService.sendAlert(
+                        '<p i18n="not expected time order">The task should begin earlier then it ends!</p>'
+                    );
                 }
                 if (err.status === 406) {
-                    this.tlogService.sendAlert('<p i18n="not valid task id alert">This task id is not valid, valid id for erxample: 7856, LT-9635, ...</p>');
+                    this.tlogService.sendAlert(
+                        '<p i18n="not valid task id alert">This task id is not valid, valid id for erxample: 7856, LT-9635, ...</p>'
+                    );
                 }
                 if (err.status === 416) {
-                    this.tlogService.sendAlert('<p i18n="quarter hours alert">The duration of the task should be multiple of the quarter hours!</p>');
+                    this.tlogService.sendAlert(
+                        '<p i18n="quarter hours alert">The duration of the task should be multiple of the quarter hours!</p>'
+                    );
                 }
                 if (err.status === 409) {
-                    this.tlogService.sendAlert('<p i18n="not separated alert">The task has a common interval with an existing task, the intervals should be separated!</p>');
+                    this.tlogService.sendAlert(
+                        '<p i18n="not separated alert">' +
+                        'The task has a common interval with an existing task, the intervals should be separated!' +
+                        '</p>'
+                    );
                 }
                 if (err.status === 411) {
-                    this.tlogService.sendAlert('<p i18n="task id and start time are required">The task id and the start time are required fields, do not leave them empty!</p>');
+                    this.tlogService.sendAlert(
+                        '<p i18n="required task id and start time">' +
+                        'The task id and the start time are required fields, do not leave them empty!' +
+                        '</p>'
+                    );
                 }
                 if (err.status === undefined) {
                     this.tlogService.getAllDisplayedData();

@@ -30,10 +30,10 @@ export class TlogService {
     private dayTypeOfFirstDay: number;
     private dayTypeOfLastDay: number;
     private daysInMonth: number;
-    private amountOfDisplayedCells: number = 0;
+    private amountOfDisplayedCells = 0;
     private workDays: string[] = [];
     private workDaysNumberOfDay: number[] = [];
-    private _addedDay: number = 0;
+    private _addedDay = 0;
     private _editTaskId: string;
     private _editComment: string;
     private _editStartTime: string;
@@ -42,12 +42,12 @@ export class TlogService {
     private _deleteStartTime: string;
     private _workDayIndex: number = -1;
     private _jwtToken: string;
-    private _loggedIn: boolean = false;
+    private _loggedIn = false;
     private _headers;
-    private backendUrl: string = 'http://127.0.0.1:9080/timelogger';
+    private backendUrl = '/tlog-backend/timelogger';
 
     private _sortedWorkDays: string[] = [];
-    private _selectedDayOnTaskList: string = '';
+    private _selectedDayOnTaskList = '';
     private yearOfSelectedDayOnTaskList: number;
     private monthOfSelectedDayOnTaskList: number;
     private dayOfSelectedDayOnTaskList: number;
@@ -56,7 +56,7 @@ export class TlogService {
     private _monthDisplay: string;
     private _tasks: Array<Task>;
     private _weeks: Week[] = [];
-    private _tokenRefreshIntervalInMillis: number = 240000;
+    private _tokenRefreshIntervalInMillis = 240000;
 
     /**
      * This method helps with sorting
@@ -534,7 +534,7 @@ export class TlogService {
     }
 
     private getMonthlyStatistics(workMonths: Array<WorkMonth>): number[] {
-        let statistics: number[] = [0,0];
+        let statistics: number[] = [0, 0];
         for (let index = 0; index < workMonths.length; index++) {
             if (workMonths[index].monthDate === this._monthDisplay) {
                 statistics[0] = +workMonths[index].extraMinPerMonth.toString();
@@ -602,10 +602,16 @@ export class TlogService {
             this.sendAlert('<p i18n="quarter hours alert">The duration of the task should be multiple of the quarter hours!</p>');
         }
         if (errorStatus === 409) {
-            this.sendAlert('<p i18n="not separated alert">The task has a common interval with an existing task, the intervals should be separated!</p>');
+            this.sendAlert(
+                '<p i18n="not separated alert">The task has a common interval with an existing task, the intervals should be separated!</p>'
+            );
         }
         if (errorStatus === 411) {
-            this.sendAlert('<p i18n="task id and start time are required">The task id and the start time are required fields, do not leave them empty!</p>');
+            this.sendAlert(
+                '<p i18n=" required task id and start time">' +
+                'The task id and the start time are required fields, do not leave them empty!' +
+                '</p>'
+            );
         }
         if (errorStatus === undefined) {
             this.getAllDisplayedData();

@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
-import {FormsModule} from "@angular/forms";
-import {PagerComponent} from "./pager/pager.component";
-import {WeekComponent} from "./week/week.component";
-import {WorkdayCellComponent} from "./week/day/work/workday-cell.component";
-import {DayComponent} from "./week/day/simple/day.component";
-import {MonthlyStatComponent} from "./monthly-statistics/monthly-stat.component";
-import {CalendarComponent} from "./calendar.component";
-import {BrowserModule} from "@angular/platform-browser";
-import {ModalsModule} from "../modals/modals.module";
-import {TlogService} from "../shared/Services/tlog.service";
-import {CommonModule} from "@angular/common";
+import {FormsModule} from '@angular/forms';
+import {PagerComponent} from './pager/pager.component';
+import {WeekComponent} from './week/week.component';
+import {WorkdayCellComponent} from './week/day/work/workday-cell.component';
+import {DayComponent} from './week/day/simple/day.component';
+import {MonthlyStatComponent} from './monthly-statistics/monthly-stat.component';
+import {CalendarComponent} from './calendar.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {ModalsModule} from '../modals/modals.module';
+import {TlogService} from '../shared/Services/tlog.service';
+import {CommonModule} from '@angular/common';
+import {routing} from './calendar.routing';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {CommonModule} from "@angular/common";
         FormsModule,
         BrowserModule,
         ModalsModule,
-        CommonModule
+        CommonModule,
+        routing
     ],
     declarations: [
         PagerComponent,

@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {TlogService} from "./tlog.service";
-import {Headers} from "@angular/http";
-import {Observable} from "rxjs";
-import {Router} from "@angular/router";
+import {Injectable} from '@angular/core';
+import {TlogService} from './tlog.service';
+import {Headers} from '@angular/http';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class LoginService {
@@ -60,7 +60,9 @@ export class LoginService {
                 (err) => {
                     console.log(err);
                     if (err.status === 409) {
-                        this.tlogService.sendAlert('<p i18n="name exists alert">This username already exists, please try an other one!</p>');
+                        this.tlogService.sendAlert(
+                            '<p i18n="name exists alert">This username already exists, please try an other one!</p>'
+                        );
                     }
                 }
             );

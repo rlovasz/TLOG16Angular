@@ -48,7 +48,9 @@ export class WorkdayCellComponent implements OnInit {
     public gotToTaskListView(): void {
         let selectedYear: number = this.tlogService.selectedYear;
         let selectedMonth: number = this.tlogService.selectedMonth;
-        let selectedDayOnTaskList = `${selectedYear}-${('00' + selectedMonth).substr(-2)}-${('00' + (this.tlogService.getDayValue(this.weekindex, this.dayindex))).substr(-2)}`;
+        let selectedDay: number = this.tlogService.getDayValue(this.weekindex, this.dayindex);
+        let selectedDayOnTaskList =
+            `${selectedYear}-${('00' + selectedMonth).substr(-2)}-${('00' + selectedDay).substr(-2)}`;
         this.tlogService.selectedDayOnTaskList = selectedDayOnTaskList;
         this.router.navigate(['/tasklist']);
     }

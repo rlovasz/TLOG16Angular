@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {TlogService} from "../shared/Services/tlog.service";
-import {Router} from "@angular/router";
-import {LoginService} from "../shared/Services/login.service";
+import {TlogService} from '../shared/Services/tlog.service';
+import {Router} from '@angular/router';
+import {LoginService} from '../shared/Services/login.service';
 
 @Component({
     selector: 'my-nav-bar',
