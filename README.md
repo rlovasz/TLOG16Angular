@@ -5,8 +5,9 @@
 
 * docker 
 * docker-compose
-* npm 3.8.6 version
-* nodejs v5.12.0 version
+* npm 4.0.5 version
+* nodejs v7.4.0 version
+* typescript 2.1.5 version
 
 ----
 
