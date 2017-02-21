@@ -1,20 +1,18 @@
-<div class="row">
     <nav class="navbar navbar-inverse col-md-12">
-        <div class="navbar-header">
+        <div class="row navbar-header">
             <h1>
-                <a class="navbar-brand" (click)="homepage()">TimeLogger</a>
+                <a class="col-md-2 navbar-brand" (click)="homepage()">TimeLogger</a>
             </h1>
-            <ul class="nav navbar-nav" *ngIf="tlogService.loggedIn">
+            <ul class="col-md-10 nav navbar-nav" *ngIf="tlogService.loggedIn">
                 <li class="navbar-inverse">
                     <a routerLink="/calendar" i18n="calendar view in navigation bar">Calendar view</a>
                 </li>
                 <li class="navbar-inverse">
                     <a (click)="setNewSelectedMonth()" routerLink="/tasklist" i18n="tasks list view in navigation bar">Tasks list-view</a>
                 </li>
-                <li class="navbar-inverse navbar-right">
+                <li class="navbar-inverse">
                     <a (click)="loginService.logout()" routerLink="/login" i18n="log out in navigation bar">Log out</a>
                 </li>
             </ul>
         </div>
     </nav>
-</div>

@@ -9,11 +9,11 @@
     </div>
     <div class="grid-calendar col-md-12">
         <div class="row calendar-week-header">
-            <ng-container i18n>
-            <div *ngFor="let day of dayNameList" class="col-xs-1 grid-cell dayName">
-                <p>{day, select, Mon {Mon} Tue {Tue} Wed {Wed} Thu {Thu} Fri {Fri} Sat {Sat} Sun {Sun}}</p>
-            </div>
-            </ng-container>
+                <ng-container i18n="day names in calendar header">
+                    <div *ngFor="let day of dayNameList" class="col-md-1 grid-cell dayName">
+                        <p>{day, select, Mon {Mon} Tue {Tue} Wed {Wed} Thu {Thu} Fri {Fri} Sat {Sat} Sun {Sun}}</p>
+                    </div>
+                </ng-container>
         </div>
         <my-week [week]="week"
                  [weekindex]="weekindex"

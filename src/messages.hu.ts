@@ -3,7 +3,7 @@ export const TRANSLATION_HU = `
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" datatype="plaintext" original="ng2.template">
         <body>
-            <trans-unit id="8adce1559758b5a01d60f2d666835711353082b1" datatype="html">
+           <trans-unit id="89a0e453fc56a0561530c1f93b5b46b8e6e10af9" datatype="html">
                 <source>
                     <x id="START_TAG_DIV" ctype="x-div"/>
                     <x id="START_PARAGRAPH" ctype="x-p"/><x id="ICU"/><x id="CLOSE_PARAGRAPH" ctype="x-p"/>

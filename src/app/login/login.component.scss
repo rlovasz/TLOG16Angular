@@ -1,21 +1,42 @@
 $main-color: darkcyan;
 .loginbox {
+    overflow: hidden;
+    width: 20%;
     visibility: visible;
     text-align: center;
     background: $main-color;
-    margin: auto;
-    position: absolute;
-    top: 40%; left: 40%; bottom: 40%; right: 40%;
-
-    form {
-        font-size: large;
-    }
+    margin-top: 20%;
+    margin-left: 40%;
+    margin-bottom: 20%;
+    font-size: large;
 
     label {
         margin-top: 5px;
     }
 
-    button {
-        margin-top: 10px;
+    .row {
+        width: 80%;
+        text-align: center;
+    }
+
+    .row.button-container {
+        font-size: 70%;
+        width: 100%;
+        display: inline-flex;
+
+        button {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            white-space: normal !important;
+            word-wrap: break-word;
+        }
+        .register {
+            margin-left: 3px;
+        }
+
+        .login {
+            margin-right: 3px;
+        }
     }
 }
+

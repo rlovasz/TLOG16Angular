@@ -4,11 +4,11 @@ $main-color: darkcyan;
 
     .row.calendar-week-header {
         margin: 0 auto;
-        display: table;
+        display: flex;
 
-        .col-xs-1.grid-cell.dayName {
+        .grid-cell.dayName {
+            width: 50%;
             margin: 1px 3px;
-            width: 230px;
             border-style: solid;
             border-color: $main-color;
             border-width: 1px;
@@ -23,6 +23,6 @@ $main-color: darkcyan;
     }
     .row.calendar-week {
         margin: 0 auto;
-        display: table;
+        display: flex;
     }
 }
