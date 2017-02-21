@@ -54,3 +54,16 @@ __build__/**
 .idea/
 *.swp
 
+database/
+*.js.map
+*.metadata.json
+*.component.js
+*.module.js
+*.routing.js
+*.service.js
+Classes.js
+main.js
+messages.hu.js
+messages.js
+polyfills.js
+vendor.js

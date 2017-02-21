@@ -1,11 +1,11 @@
-<div class="loginbox">
-    <form>
-        <label for="name" i18n="username">Name:</label><br>
-        <input #name id="name" type="text" name="name" [(ngModel)]="nameField">
-        <br>
-        <label for="password" i18n="password">Password:</label><br>
-        <input #password id="password" type="password" name="password" [(ngModel)]="pswField"> <br>
-        <button type="submit" (click)="login(name.value, password.value)" i18n="login button">Login</button>
-        <button type="submit" (click)="register(name.value, password.value)" i18n="register button">Register</button>
-    </form>
-</div>
+<form class="loginbox col-md-12">
+    <label class="row" for="name" i18n="username">Name:</label><br>
+    <input class="row" #name id="name" type="text" name="name" [(ngModel)]="nameField">
+    <br>
+    <label class="row" for="password" i18n="password">Password:</label><br>
+    <input class="row" #password id="password" type="password" name="password" [(ngModel)]="pswField"> <br>
+    <div class="row button-container">
+        <button class="col-xs-6 login" type="submit" (click)="login(name.value, password.value)" i18n="login button">Login</button>
+        <button class="col-xs-6 register" type="submit" (click)="register(name.value, password.value)" i18n="register button">Register</button>
+    </div>
+</form>

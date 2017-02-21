@@ -3,3 +3,11 @@ $main-color: darkcyan;
 button#addNewTask{
     color: $main-color;
 }
+
+daily-stat.col-md-8 {
+    float: none;
+}
+
+div#changeDay {
+    width: 10%;
+}
