@@ -44,6 +44,7 @@ export class TlogService {
     private _jwtToken: string;
     private _loggedIn = false;
     private _headers;
+    // private backendUrl = 'http://127.0.0.1:9080/timelogger';
     private backendUrl = '/tlog-backend/timelogger';
 
     private _sortedWorkDays: string[] = [];
